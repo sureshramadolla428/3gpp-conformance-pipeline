@@ -1,0 +1,18 @@
+{
+  "verdict": "PASS",
+  "feature": "sib1",
+  "model": "claude",
+  "metrics": {
+    "sib1_frames": 7,
+    "configs_present": true,
+    "plmn_count": 2,
+    "cu_first_plmn": "208-93",
+    "du_first_plmn": "208-93",
+    "plmn_order_match": true,
+    "target_plmn_present": true,
+    "plmn_order_mismatch": false
+  },
+  "ts_clause": "TS 38.331 \u00a76.3.1",
+  "notes": "CU and DU agree on PLMN order (first = '208-93'); 2 PLMN(s); 7 F1AP frame(s) confirm. TS 38.331 \u00a76.3.1 SIB1/MOCN ordering consistent.",
+  "timestamp": "2026-08-07T19:39:03.695675+00:00"
+}

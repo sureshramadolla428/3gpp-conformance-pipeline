@@ -1,0 +1,17 @@
+{
+  "verdict": "FAIL",
+  "feature": "suci",
+  "model": "claude",
+  "metrics": {
+    "ngap_frames": 14,
+    "nas_frames": 9,
+    "security_mode_command": true,
+    "security_mode_complete": true,
+    "suci_frames": 2,
+    "null_scheme_frames": 2,
+    "clear_imsi_frames": 0
+  },
+  "ts_clause": "TS 33.501 \u00a76.12",
+  "notes": "Null-scheme SUCI: protection scheme 0 on 2 frame(s) \u2014 the IMSI is carried in cleartext, so identifier privacy is NOT provided. Provision a home-network key (ECIES profile A/B). TS 33.501 \u00a76.12 violated.",
+  "timestamp": "2026-08-07T19:38:06.495532+00:00"
+}

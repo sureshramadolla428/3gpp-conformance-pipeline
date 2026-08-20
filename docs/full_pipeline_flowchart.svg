@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 610" width="820" height="610">
+  <style>
+    .box{fill:#f6f8fa;stroke:#d0d7de;stroke-width:1.5}
+    .green{fill:#dafbe1;stroke:#2da44e;stroke-width:1.5}
+    .amber{fill:#fff8c5;stroke:#d4a72c;stroke-width:1.5}
+    text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#1f2328}
+    .th{font-size:14px;font-weight:600}
+    .ts{font-size:12px;fill:#57606a}
+    .ln{stroke:#57606a;stroke-width:1.5;fill:none}
+    .dash{stroke:#57606a;stroke-width:1.2;stroke-dasharray:4 3;fill:none}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#57606a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- sources -->
+  <rect class="box" x="40" y="34" width="330" height="56" rx="8"/>
+  <text class="th" x="205" y="57" text-anchor="middle">OpenAirInterface NTN lab</text>
+  <text class="ts" x="205" y="76" text-anchor="middle">gNB · nrUE · CN5G · RFsim</text>
+
+  <rect class="box" x="450" y="34" width="330" height="56" rx="8"/>
+  <text class="th" x="615" y="57" text-anchor="middle">UERANSIM + Open5GS</text>
+  <text class="ts" x="615" y="76" text-anchor="middle">5G call flows + failure logs</text>
+
+  <line class="ln" x1="205" y1="90" x2="205" y2="116" marker-end="url(#a)"/>
+  <line class="ln" x1="615" y1="90" x2="615" y2="116" marker-end="url(#a)"/>
+
+  <!-- evidence / RAG -->
+  <rect class="box" x="40" y="116" width="330" height="56" rx="8"/>
+  <text class="th" x="205" y="139" text-anchor="middle">evidence/</text>
+  <text class="ts" x="205" y="158" text-anchor="middle">pcaps + gNB/UE/AMF logs + configs</text>
+
+  <rect class="box" x="450" y="116" width="330" height="56" rx="8"/>
+  <text class="th" x="615" y="139" text-anchor="middle">3GPP RAG index</text>
+  <text class="ts" x="615" y="158" text-anchor="middle">3GPP specs + failure logs</text>
+
+  <line class="ln" x1="615" y1="172" x2="615" y2="200" marker-end="url(#a)"/>
+
+  <!-- spec + offline models -->
+  <rect class="box" x="285" y="200" width="250" height="56" rx="8"/>
+  <text class="th" x="410" y="223" text-anchor="middle">spec contract</text>
+  <text class="ts" x="410" y="242" text-anchor="middle">TS clause → must / must not</text>
+
+  <rect class="amber" x="560" y="200" width="220" height="56" rx="8"/>
+  <text class="th" x="670" y="223" text-anchor="middle">offline 3GPP RAG</text>
+  <text class="ts" x="670" y="242" text-anchor="middle">retrieves specs → llama3 · mistral</text>
+
+  <!-- evidence + spec feed the three graders -->
+  <line class="ln" x1="205" y1="172" x2="205" y2="284"/>
+  <line class="ln" x1="410" y1="256" x2="410" y2="284"/>
+  <line class="ln" x1="155" y1="284" x2="675" y2="284"/>
+  <line class="ln" x1="205" y1="284" x2="205" y2="284"/>
+  <line class="ln" x1="155" y1="284" x2="155" y2="302" marker-end="url(#a)"/>
+  <line class="ln" x1="415" y1="284" x2="415" y2="302" marker-end="url(#a)"/>
+  <line class="ln" x1="675" y1="284" x2="675" y2="302" marker-end="url(#a)"/>
+
+  <!-- graders -->
+  <rect class="green" x="40" y="302" width="230" height="60" rx="8"/>
+  <text class="th" x="155" y="328" text-anchor="middle">impl_claude</text>
+  <text class="ts" x="155" y="346" text-anchor="middle">reference · trusted</text>
+
+  <rect class="amber" x="300" y="302" width="230" height="60" rx="8"/>
+  <text class="th" x="415" y="328" text-anchor="middle">impl_llama3</text>
+  <text class="ts" x="415" y="346" text-anchor="middle">offline</text>
+
+  <rect class="amber" x="560" y="302" width="230" height="60" rx="8"/>
+  <text class="th" x="675" y="328" text-anchor="middle">impl_mistral</text>
+  <text class="ts" x="675" y="346" text-anchor="middle">offline</text>
+
+  <!-- graders -> diff -->
+  <line class="ln" x1="155" y1="362" x2="155" y2="380"/>
+  <line class="ln" x1="415" y1="362" x2="415" y2="380"/>
+  <line class="ln" x1="675" y1="362" x2="675" y2="380"/>
+  <line class="ln" x1="155" y1="380" x2="675" y2="380"/>
+  <line class="ln" x1="415" y1="380" x2="415" y2="402" marker-end="url(#a)"/>
+
+  <rect class="box" x="295" y="402" width="240" height="56" rx="8"/>
+  <text class="th" x="415" y="425" text-anchor="middle">pytest + diff_report</text>
+  <text class="ts" x="415" y="444" text-anchor="middle">compare 3 verdicts vs reference</text>
+
+  <!-- re-run loop -->
+  <path class="dash" d="M535 429 C645 429 700 408 700 392 L700 362" marker-end="url(#a)"/>
+  <text class="ts" x="695" y="406" text-anchor="end">correct offline, re-run</text>
+
+  <!-- outputs -->
+  <line class="ln" x1="415" y1="458" x2="415" y2="474"/>
+  <line class="ln" x1="270" y1="474" x2="560" y2="474"/>
+  <line class="ln" x1="270" y1="474" x2="270" y2="490" marker-end="url(#a)"/>
+  <line class="ln" x1="560" y1="474" x2="560" y2="490" marker-end="url(#a)"/>
+
+  <rect class="box" x="120" y="490" width="300" height="58" rx="8"/>
+  <text class="th" x="270" y="515" text-anchor="middle">evidence report</text>
+  <text class="ts" x="270" y="533" text-anchor="middle">pcap + verdict + TS cite</text>
+
+  <rect class="green" x="440" y="490" width="320" height="58" rx="8"/>
+  <text class="th" x="600" y="515" text-anchor="middle">golden + ci guard</text>
+  <text class="ts" x="600" y="533" text-anchor="middle">frozen when all agree</text>
+
+  <text class="ts" x="410" y="582" text-anchor="middle">green = trusted reference   ·   amber = offline models (llama3 / mistral)   ·   sources: OAI · UERANSIM · Open5GS</text>
+</svg>

@@ -1,0 +1,4 @@
+Feature: sib1  (TC-SEC-003, 2-PLMN)
+Evidence: evidence/TC-SEC-003_20260805T232636Z_2PLMN/
+Inputs: cu.conf, du.conf, f1.pcap
+Expected: PASS  (plmn_order_match=true; 208/93 first on CU & DU)

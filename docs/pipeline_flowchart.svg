@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 620" width="680" height="620">
+  <style>
+    .box{fill:#f6f8fa;stroke:#d0d7de;stroke-width:1.5}
+    .green{fill:#dafbe1;stroke:#2da44e;stroke-width:1.5}
+    .amber{fill:#fff8c5;stroke:#d4a72c;stroke-width:1.5}
+    text{font-family:'Segoe UI',Arial,Helvetica,sans-serif;fill:#1f2328}
+    .th{font-size:14px;font-weight:600}
+    .ts{font-size:12px;fill:#57606a}
+    .ln{stroke:#57606a;stroke-width:1.5;fill:none}
+    .dash{stroke:#57606a;stroke-width:1.2;stroke-dasharray:4 3;fill:none}
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#57606a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect class="box" x="200" y="48" width="280" height="54" rx="8"/>
+  <text class="th" x="340" y="70" text-anchor="middle">5g lab · vmware / oai</text>
+  <text class="ts" x="340" y="88" text-anchor="middle">gNB · nrUE · CN5G run a test</text>
+  <line class="ln" x1="340" y1="102" x2="340" y2="132" marker-end="url(#a)"/>
+
+  <rect class="box" x="200" y="132" width="280" height="54" rx="8"/>
+  <text class="th" x="340" y="154" text-anchor="middle">capture evidence</text>
+  <text class="ts" x="340" y="172" text-anchor="middle">capture-l2l3.sh → pcap + logs</text>
+  <line class="ln" x1="340" y1="186" x2="340" y2="216" marker-end="url(#a)"/>
+
+  <rect class="box" x="200" y="216" width="280" height="54" rx="8"/>
+  <text class="th" x="340" y="238" text-anchor="middle">spec contract</text>
+  <text class="ts" x="340" y="256" text-anchor="middle">TS clause → must / must not</text>
+
+  <line class="ln" x1="340" y1="270" x2="340" y2="286"/>
+  <line class="ln" x1="140" y1="286" x2="540" y2="286"/>
+  <line class="ln" x1="140" y1="286" x2="140" y2="300" marker-end="url(#a)"/>
+  <line class="ln" x1="340" y1="286" x2="340" y2="300" marker-end="url(#a)"/>
+  <line class="ln" x1="540" y1="286" x2="540" y2="300" marker-end="url(#a)"/>
+
+  <rect class="green" x="50" y="300" width="180" height="64" rx="8"/>
+  <text class="th" x="140" y="328" text-anchor="middle">impl_claude</text>
+  <text class="ts" x="140" y="346" text-anchor="middle">reference · trusted</text>
+
+  <rect class="amber" x="250" y="300" width="180" height="64" rx="8"/>
+  <text class="th" x="340" y="328" text-anchor="middle">impl_llama3</text>
+  <text class="ts" x="340" y="346" text-anchor="middle">offline</text>
+
+  <rect class="amber" x="450" y="300" width="180" height="64" rx="8"/>
+  <text class="th" x="540" y="328" text-anchor="middle">impl_mistral</text>
+  <text class="ts" x="540" y="346" text-anchor="middle">offline</text>
+
+  <line class="ln" x1="140" y1="364" x2="140" y2="378"/>
+  <line class="ln" x1="340" y1="364" x2="340" y2="378"/>
+  <line class="ln" x1="540" y1="364" x2="540" y2="378"/>
+  <line class="ln" x1="140" y1="378" x2="540" y2="378"/>
+  <line class="ln" x1="340" y1="378" x2="340" y2="410" marker-end="url(#a)"/>
+
+  <rect class="box" x="200" y="410" width="280" height="54" rx="8"/>
+  <text class="th" x="340" y="432" text-anchor="middle">pytest + diff_report</text>
+  <text class="ts" x="340" y="450" text-anchor="middle">compare 3 verdicts vs reference</text>
+
+  <path class="dash" d="M480 437 C588 437 632 418 632 384 L632 366" marker-end="url(#a)"/>
+  <text class="ts" x="628" y="414" text-anchor="end">correct offline, re-run</text>
+
+  <line class="ln" x1="340" y1="464" x2="340" y2="480"/>
+  <line class="ln" x1="215" y1="480" x2="465" y2="480"/>
+  <line class="ln" x1="215" y1="480" x2="215" y2="496" marker-end="url(#a)"/>
+  <line class="ln" x1="465" y1="480" x2="465" y2="496" marker-end="url(#a)"/>
+
+  <rect class="box" x="105" y="496" width="220" height="60" rx="8"/>
+  <text class="th" x="215" y="522" text-anchor="middle">evidence report</text>
+  <text class="ts" x="215" y="540" text-anchor="middle">pcap + verdict + TS cite</text>
+
+  <rect class="green" x="355" y="496" width="220" height="60" rx="8"/>
+  <text class="th" x="465" y="522" text-anchor="middle">golden + ci guard</text>
+  <text class="ts" x="465" y="540" text-anchor="middle">frozen when all agree</text>
+
+  <text class="ts" x="340" y="590" text-anchor="middle">green = trusted reference    amber = offline, being calibrated</text>
+</svg>

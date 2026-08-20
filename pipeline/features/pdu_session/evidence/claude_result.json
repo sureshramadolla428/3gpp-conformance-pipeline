@@ -1,0 +1,18 @@
+{
+  "verdict": "PASS",
+  "feature": "pdu_session",
+  "model": "claude",
+  "metrics": {
+    "registered": true,
+    "nas_frames": 9,
+    "pdu_session_frames": 2,
+    "pdu_req": true,
+    "pdu_accept": true,
+    "gtpu_frames": 42,
+    "ping_ok": true,
+    "pdu_reject": false
+  },
+  "ts_clause": "TS 24.501 \u00a76.4.1",
+  "notes": "PDU session established (Est Request + Accept); GTP-U user plane present on N3 (42 frames); data-plane reachable (ping 0% loss). TS 24.501 \u00a76.4.1 satisfied.",
+  "timestamp": "2026-08-07T19:38:44.792705+00:00"
+}

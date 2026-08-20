@@ -1,0 +1,17 @@
+{
+  "verdict": "PASS",
+  "feature": "registration",
+  "model": "claude",
+  "metrics": {
+    "ngap_frames": 17,
+    "nas_frames": 9,
+    "reg_request": true,
+    "auth_present": true,
+    "security_complete": true,
+    "reg_accept": true,
+    "reg_reject": false
+  },
+  "ts_clause": "TS 24.501 \u00a75.5.1",
+  "notes": "Full registration confirmed: Registration Request -> Authentication Req/Resp -> Security Mode Cmd/Complete -> Registration Accept. TS 24.501 \u00a75.5.1 satisfied; UE reached 5GMM-REGISTERED.",
+  "timestamp": "2026-08-07T19:37:49.187372+00:00"
+}

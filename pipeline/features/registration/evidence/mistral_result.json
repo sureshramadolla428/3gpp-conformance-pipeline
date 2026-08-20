@@ -1,0 +1,17 @@
+{
+  "verdict": "PASS",
+  "feature": "registration",
+  "model": "mistral",
+  "metrics": {
+    "ngap_frames": 17,
+    "nas_frames": 9,
+    "reg_request": true,
+    "auth_present": true,
+    "security_complete": true,
+    "reg_accept": true,
+    "reg_reject": false
+  },
+  "ts_clause": "TS 24.501 \u00a75.5.1",
+  "notes": "Full registration confirmed; UE reached 5GMM-REGISTERED.",
+  "timestamp": "2026-08-07T19:39:02.998646+00:00"
+}

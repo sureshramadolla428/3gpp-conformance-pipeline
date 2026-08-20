@@ -1,0 +1,5 @@
+# 3GPP conformance pipeline (this repo — not the signalling RAG toolkit)
+# Python 3.10+
+
+pytest>=7.0
+pycryptodome>=3.19

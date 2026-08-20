@@ -1,0 +1,4 @@
+Feature: suci  (TC-SEC-001)
+Evidence: evidence/TC-SEC-001_20260805T211732Z/
+Input pcap: core.pcap   (N2 / NGAP)
+Expected: FAIL  (null-scheme SUCI -> null_scheme_frames=2, IMSI exposed)

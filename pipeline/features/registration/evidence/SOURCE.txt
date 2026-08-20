@@ -1,0 +1,4 @@
+Feature: registration  (TC-REG-001)
+Evidence: evidence/TC-REG-001_20260805T213520Z/
+Input pcap: core.pcap   (N2 / NGAP)
+Expected: PASS  (RegReq->Auth->SMC/SMP->RegAccept, no reject)

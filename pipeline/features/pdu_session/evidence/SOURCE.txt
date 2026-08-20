@@ -1,0 +1,4 @@
+Feature: pdu_session  (TC-PDU-001)
+Evidence: evidence/TC-PDU-001_20260805T224736Z/
+Inputs: core.pcap (N2), n3.pcap (GTP-U), run.log (ping)
+Expected: PASS  (pdu_req/accept, gtpu>0, ping 0% loss)

@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# Offline AI drafts (regenerated locally; not part of the committed pipeline)
+*.generated.py
+*.raw.txt
+
+# Raw captures — large / potentially sensitive; keep local, not in git
+*.pcap
+*.pcapng
+
+# Local lab / RAG internals live in separate private folders, never here
+# (3GPP_Spec_Test, 5g-ntn-emulation-lab, evidence/ raw captures)
+
+# Offline generator lives in the private companion repo, not this public tree
+/tools/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

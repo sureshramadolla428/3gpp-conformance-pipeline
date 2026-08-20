@@ -1,0 +1,4 @@
+Feature: aka  (TC-SEC-002)
+Evidence: evidence/TC-SEC-002_20260805T220324Z/
+Inputs: amf.log, core.pcap, aka_inputs.txt, recompute_out.txt
+Expected: PASS  (res_star_match=true, snn_correct=true, no auth_reject)
