@@ -23,14 +23,14 @@ from pathlib import Path
 # (otherwise only the compare/ folder is on sys.path and `import pipeline` fails).
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-# Registered features — each maps to the latest matching evidence folder under
+# Registered features - each maps to the latest matching evidence folder under
 # <repo-parent>/evidence/. Add new ones here as you build them.
 FEATURES = {
-    "suci":         {"glob": "TC-SEC-001_*",       "ts_clause": "TS 33.501 §6.12"},
-    "registration": {"glob": "TC-REG-001_*",       "ts_clause": "TS 24.501 §5.5.1"},
-    "aka":          {"glob": "TC-SEC-002_*",       "ts_clause": "TS 33.501 §6.1.3.2"},
-    "pdu_session":  {"glob": "TC-PDU-001_*",       "ts_clause": "TS 24.501 §6.4.1"},
-    "sib1":         {"glob": "TC-SEC-003_*2PLMN*", "ts_clause": "TS 38.331 §6.3.1"},
+    "suci":         {"glob": "TC-SEC-001_*",       "ts_clause": "TS 33.501 6.12"},
+    "registration": {"glob": "TC-REG-001_*",       "ts_clause": "TS 24.501 5.5.1"},
+    "aka":          {"glob": "TC-SEC-002_*",       "ts_clause": "TS 33.501 6.1.3.2"},
+    "pdu_session":  {"glob": "TC-PDU-001_*",       "ts_clause": "TS 24.501 6.4.1"},
+    "sib1":         {"glob": "TC-SEC-003_*2PLMN*", "ts_clause": "TS 38.331 6.3.1"},
 }
 
 EVIDENCE_ROOT = Path(__file__).resolve().parents[2] / "evidence"
@@ -48,9 +48,9 @@ WIDTH = 72
 
 
 def _banner(text: str) -> None:
-    print("═" * WIDTH)
+    print("" * WIDTH)
     print(f"  {text}")
-    print("═" * WIDTH)
+    print("" * WIDTH)
 
 
 def _load_impl(feature: str, model: str):
@@ -88,7 +88,7 @@ def compare_feature(feature: str) -> bool:
         print(f"Unknown feature: {feature}. Add it to FEATURES dict in diff_report.py.")
         return False
 
-    _banner(f"FEATURE: {feature.upper()}  —  {cfg['ts_clause']}")
+    _banner(f"FEATURE: {feature.upper()}  -  {cfg['ts_clause']}")
 
     evidence = _resolve_evidence(cfg["glob"])
     if evidence is None:
@@ -101,7 +101,7 @@ def compare_feature(feature: str) -> bool:
     # Reference is Claude
     ref = results.get("claude")
     if ref is None:
-        print("  [ERROR] Could not load impl_claude.py — fix it first.")
+        print("  [ERROR] Could not load impl_claude.py - fix it first.")
         return False
 
     print(f"\n  {'METRIC':<30} {'CLAUDE':>12} {'LLAMA3':>12} {'MISTRAL':>12}  STATUS")
@@ -127,8 +127,8 @@ def compare_feature(feature: str) -> bool:
         vals = {}
         for m in MODELS:
             r = results.get(m)
-            vals[m] = str(r.metrics.get(key, "—")) if r else "NOT LOADED"
-        ref_val = str(ref.metrics.get(key, "—"))
+            vals[m] = str(r.metrics.get(key, "-")) if r else "NOT LOADED"
+        ref_val = str(ref.metrics.get(key, "-"))
         _print_row(key, vals, ref_val)
         if not all(v == ref_val for v in vals.values()):
             all_agree = False
@@ -139,22 +139,22 @@ def compare_feature(feature: str) -> bool:
     for model in ["llama3", "mistral"]:
         r = results.get(model)
         if r is None:
-            print(f"  ⚠  [{model.upper()}] impl not loaded — run Ollama and paste output into impl_{model}.py")
+            print(f"    [{model.upper()}] impl not loaded - run Ollama and paste output into impl_{model}.py")
             all_agree = False
             continue
         if r.verdict == "ERROR" and "NOT IMPLEMENTED" in r.notes:
-            print(f"  ⚠  [{model.upper()}] NOT YET WRITTEN")
-            print(f"     → Open pipeline/features/{feature}/impl_{model}.py")
-            print(f"     → Follow the instructions in the file header")
-            print(f"     → Paste the Ollama output, then re-run this script")
+            print(f"    [{model.upper()}] NOT YET WRITTEN")
+            print(f"      Open pipeline/features/{feature}/impl_{model}.py")
+            print(f"      Follow the instructions in the file header")
+            print(f"      Paste the Ollama output, then re-run this script")
             all_agree = False
         elif r.verdict != ref.verdict:
-            print(f"  ✗  [{model.upper()}] NEEDS CORRECTION — verdict {r.verdict} ≠ REFERENCE {ref.verdict}")
+            print(f"    [{model.upper()}] NEEDS CORRECTION - verdict {r.verdict}  REFERENCE {ref.verdict}")
             print(f"     Notes: {r.notes}")
             all_agree = False
 
     if all_agree:
-        print(f"  ✓  All three models agree — Claude output saved as golden.")
+        print(f"    All three models agree - Claude output saved as golden.")
         _save_golden(feature, ref)
     else:
         print(f"\n  RESULT: Disagreement detected. Correct Ollama impls and re-run.")
@@ -164,21 +164,21 @@ def compare_feature(feature: str) -> bool:
 
 
 def _print_row(key: str, vals: dict[str, str], ref_val: str) -> None:
-    claude_v = vals.get("claude", "—")
-    llama_v  = vals.get("llama3", "—")
-    mistr_v  = vals.get("mistral", "—")
+    claude_v = vals.get("claude", "-")
+    llama_v  = vals.get("llama3", "-")
+    mistr_v  = vals.get("mistral", "-")
 
     agree_llama   = llama_v == ref_val
     agree_mistral = mistr_v == ref_val
     all_ok = agree_llama and agree_mistral
 
-    status = "✅ agree" if all_ok else "⚠  DISAGREE"
+    status = " agree" if all_ok else "  DISAGREE"
     print(f"  {key:<30} {claude_v:>12} {llama_v:>12} {mistr_v:>12}  {status}")
 
     if not agree_llama:
-        print(f"  {'':30} {'':>12} {'↑ fix':>12} {'':>12}  [NEEDS CORRECTION]")
+        print(f"  {'':30} {'':>12} {' fix':>12} {'':>12}  [NEEDS CORRECTION]")
     if not agree_mistral:
-        print(f"  {'':30} {'':>12} {'':>12} {'↑ fix':>12}  [NEEDS CORRECTION]")
+        print(f"  {'':30} {'':>12} {'':>12} {' fix':>12}  [NEEDS CORRECTION]")
 
 
 def _save_golden(feature: str, result) -> None:
@@ -187,7 +187,7 @@ def _save_golden(feature: str, result) -> None:
     golden_dir.mkdir(exist_ok=True)
     golden_path = golden_dir / f"{feature}_claude.json"
     golden_path.write_text(result.to_json())
-    print(f"  → Golden saved: {golden_path}")
+    print(f"   Golden saved: {golden_path}")
 
 
 def main() -> None:
@@ -200,13 +200,13 @@ def main() -> None:
     features = list(FEATURES.keys()) if args.all else [args.feature]
     results = [compare_feature(f) for f in features]
 
-    print("═" * WIDTH)
+    print("" * WIDTH)
     if all(results):
-        print("  OVERALL: All features agree ✅")
+        print("  OVERALL: All features agree ")
     else:
         failed = [f for f, ok in zip(features, results) if not ok]
         print(f"  OVERALL: {len(failed)} feature(s) need correction: {', '.join(failed)}")
-    print("═" * WIDTH)
+    print("" * WIDTH)
 
 
 if __name__ == "__main__":

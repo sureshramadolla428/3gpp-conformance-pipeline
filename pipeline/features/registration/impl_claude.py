@@ -1,5 +1,5 @@
 """
-impl_claude.py — registration verifier (implementation kept PRIVATE).
+impl_claude.py - registration verifier (implementation kept PRIVATE).
 
 The grading logic is proprietary and not published in this public repo. This stub
 preserves the public interface: run(...) -> VerificationResult. The design, the

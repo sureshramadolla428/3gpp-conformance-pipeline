@@ -1,5 +1,5 @@
 """
-test_aka.py — TS 33.501 §6.1.3.2 conformance test (human-owned oracle).
+test_aka.py - TS 33.501 6.1.3.2 conformance test (human-owned oracle).
 
 Runs claude / llama3 / mistral against the latest TC-SEC-002 evidence folder
 (aka_inputs.txt + amf.log + aka_observed.txt). Claude = REFERENCE.
@@ -45,7 +45,7 @@ def test_res_star_matches(impl, name):
 
 @pytest.mark.parametrize("impl,name", IMPLS)
 def test_overall_verdict_pass(impl, name):
-    """Overall verdict must be PASS for TS 33.501 §6.1.3.2 conformance."""
+    """Overall verdict must be PASS for TS 33.501 6.1.3.2 conformance."""
     if not EVIDENCE:
         pytest.skip("TC-SEC-002 evidence not found under evidence/")
     result = impl.run(EVIDENCE)

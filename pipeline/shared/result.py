@@ -12,7 +12,7 @@ from pathlib import Path
 
 @dataclass
 class VerificationResult:
-    # Core verdict — what the test asserts on
+    # Core verdict - what the test asserts on
     verdict: str          # "PASS" | "FAIL" | "INCONCLUSIVE" | "ERROR"
     feature: str          # e.g. "suci", "aka", "sib1"
     model: str            # "claude" | "llama3" | "mistral"
@@ -21,7 +21,7 @@ class VerificationResult:
     metrics: dict = field(default_factory=dict)
 
     # Human-readable notes and TS citation
-    ts_clause: str = ""   # e.g. "TS 33.501 §6.1.3"
+    ts_clause: str = ""   # e.g. "TS 33.501 6.1.3"
     notes: str = ""       # explanation of verdict
 
     # Auto-set at runtime
@@ -44,7 +44,7 @@ class VerificationResult:
         # Markdown for human reading
         md_path = out_dir / f"{self.model}_report.md"
         lines = [
-            f"# {self.feature.upper()} — {self.model.capitalize()} Evidence Report",
+            f"# {self.feature.upper()} - {self.model.capitalize()} Evidence Report",
             f"",
             f"**Clause:** {self.ts_clause}  ",
             f"**Verdict:** {self.verdict}  ",

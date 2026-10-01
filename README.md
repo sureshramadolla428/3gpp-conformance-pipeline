@@ -15,7 +15,7 @@ The three implementations are intentional:
 
 | Role | Module |
 |------|--------|
-| **Reference** | `impl_claude.py` |
+| **Reference** | `impl_reference.py` |
 | **Offline model A** | `impl_llama3.py` |
 | **Offline model B** | `impl_mistral.py` |
 
@@ -29,7 +29,7 @@ assistant-vs-open-source comparison is part of the design. Do not strip `assista
 flowchart TD
  A["OAI 5G / NTN lab<br/>gNB - nrUE - CN5G"] --> B["capture evidence<br/>pcap + logs + configs"]
  B --> C["spec.md contract<br/>TS clause, must / must not"]
- C --> D1["impl_claude (reference)"]
+ C --> D1["impl_reference (reference)"]
  C --> D2["impl_llama3 (offline / RAG)"]
  C --> D3["impl_mistral (offline / RAG)"]
  D1 --> E["diff_report<br/>compare 3 verdicts"]
@@ -99,7 +99,7 @@ Verifiers read captures/logs. They do not control the live RAN. Raw pcaps for a 
 """ pipeline/
 "' """ shared/ # VerificationResult, tshark helpers
 "' """" features/<name>/
-"' """ impl_claude.py
+"' """ impl_reference.py
 "' """ impl_llama3.py
 "' """ impl_mistral.py
 "' """ test_<name>.py
@@ -117,7 +117,7 @@ Offline verifier generation (`gen_offline_impl.py` and the local 3GPP RAG) lives
 2. Run one reference verifier (optional):
 
 ```powershell
-python -m pipeline.features.suci.impl_claude "..\evidence\TC-SEC-001_<timestamp>"
+python -m pipeline.features.suci.impl_reference "..\evidence\TC-SEC-001_<timestamp>"
 ```
 
 3. Compare all three models (main command):
@@ -157,7 +157,7 @@ More detail: [`docs/RUN_GUIDE.md`](docs/RUN_GUIDE.md) - [`docs/EXPLAINER.md`](do
 ## Honesty
 
 - Lab / RFsim evidence, not an over-the-air certification campaign.
-- `impl_claude` is the trusted reference. Offline models draft; humans correct until the three-way report agrees.
+- `impl_reference` is the trusted reference. Offline models draft; humans correct until the three-way report agrees.
 - A SUCI **FAIL** on null-scheme (IMSI in the clear) is a real lab finding, not a decoder bug.
 
 ---

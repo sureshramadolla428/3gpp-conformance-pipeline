@@ -1,5 +1,5 @@
 """
-test_sib1.py — TS 38.331 §6.3.1 conformance test (human-owned oracle).
+test_sib1.py - TS 38.331 6.3.1 conformance test (human-owned oracle).
 
 Runs claude / llama3 / mistral against the latest 2-PLMN TC-SEC-003 evidence
 (cu.conf + du.conf + f1.pcap). Claude = REFERENCE.
@@ -37,7 +37,7 @@ def test_no_order_mismatch(impl, name):
 
 @pytest.mark.parametrize("impl,name", IMPLS)
 def test_overall_verdict_pass(impl, name):
-    """Overall verdict must be PASS for TS 38.331 §6.3.1 conformance."""
+    """Overall verdict must be PASS for TS 38.331 6.3.1 conformance."""
     if not EVIDENCE:
         pytest.skip("TC-SEC-003 evidence not found under evidence/")
     result = impl.run(EVIDENCE)

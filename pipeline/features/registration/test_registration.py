@@ -1,5 +1,5 @@
 """
-test_registration.py — TS 24.501 §5.5.1 conformance test (human-owned oracle).
+test_registration.py - TS 24.501 5.5.1 conformance test (human-owned oracle).
 
 Runs claude / llama3 / mistral against the latest TC-REG-001 capture and
 asserts the initial registration completed. Claude = REFERENCE.
@@ -47,7 +47,7 @@ def test_no_registration_reject(impl, name):
 
 @pytest.mark.parametrize("impl,name", IMPLS)
 def test_overall_verdict_pass(impl, name):
-    """Overall verdict must be PASS for TS 24.501 §5.5.1 conformance."""
+    """Overall verdict must be PASS for TS 24.501 5.5.1 conformance."""
     if not PCAP or not PCAP.exists():
         pytest.skip("TC-REG-001 core.pcap not found under evidence/")
     result = impl.run(PCAP)

@@ -1,5 +1,5 @@
 """
-test_pdu_session.py — TS 24.501 §6.4.1 conformance test (human-owned oracle).
+test_pdu_session.py - TS 24.501 6.4.1 conformance test (human-owned oracle).
 
 Runs claude / llama3 / mistral against the latest TC-PDU-001 evidence folder
 (core.pcap + n3.pcap + run.log). Claude = REFERENCE.
@@ -46,7 +46,7 @@ def test_user_plane_reachable(impl, name):
 
 @pytest.mark.parametrize("impl,name", IMPLS)
 def test_overall_verdict_pass(impl, name):
-    """Overall verdict must be PASS for TS 24.501 §6.4.1 conformance."""
+    """Overall verdict must be PASS for TS 24.501 6.4.1 conformance."""
     if not EVIDENCE:
         pytest.skip("TC-PDU-001 evidence not found under evidence/")
     result = impl.run(EVIDENCE)
