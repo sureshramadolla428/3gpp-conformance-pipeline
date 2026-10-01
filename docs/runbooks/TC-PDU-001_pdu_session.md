@@ -46,6 +46,6 @@ Verify the 5GSM field name `nas-5gs.sm.message_type` and which pcap actually hol
 ## STEP 5 - handoff
 ```bash
 echo "Evidence: $OUT"
-echo "Verify:   python3 -c \"from pipeline.features.pdu_session import impl_claude; print(impl_claude.run('$OUT/core.pcap','$OUT/n3.pcap','$OUT/run.log').verdict)\""
+echo "Verify:   python3 -c \"from pipeline.features.pdu_session import impl_reference; print(impl_reference.run('$OUT/core.pcap','$OUT/n3.pcap','$OUT/run.log').verdict)\""
 ```
 Saves: core.pcap, n3.pcap, run.log, gnb.log, ue.log, core_boot.log, meta.txt. Change nothing outside "$OUT".

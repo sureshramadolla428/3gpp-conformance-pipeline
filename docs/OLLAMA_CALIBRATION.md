@@ -5,7 +5,7 @@ verifiers, `diff_report.py` compares all three against the Claude REFERENCE, and
 correct the offline ones until they agree. When they agree, the result is frozen as golden.
 
 The core principle: **give the offline model the spec, NOT Claude's code.** If it saw
-`impl_claude.py` it would just copy it and there would be nothing to calibrate. It must
+`impl_reference.py` it would just copy it and there would be nothing to calibrate. It must
 reason from the human-authored `spec.md` on its own - the divergences are the whole point.
 
 ---

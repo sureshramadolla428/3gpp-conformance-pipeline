@@ -43,8 +43,8 @@ CRITICAL: the RAND, K, OPc and SNN must all be from THIS run, or RES* will not m
 
 ## STEP 5 - offline recompute (report match only)
 ```bash
-python3 -c "from pipeline.features.aka import impl_claude; \
-print(impl_claude.run(log='$OUT/amf.log', inputs='$OUT/aka_inputs.txt').metrics)"
+python3 -c "from pipeline.features.aka import impl_reference; \
+print(impl_reference.run(log='$OUT/amf.log', inputs='$OUT/aka_inputs.txt').metrics)"
 ```
 Report: res_star_match, snn_correct, auth_reject. Verify the Annex A.4 KDF and the SNN format
 ("5G:mnc<MNC>.mcc<MCC>.3gppnetwork.org") in the reference before trusting the result.

@@ -61,19 +61,19 @@ use it automatically - no path editing.
 
 ## Part 3 - Run ONE reference verifier (optional, to eyeball a single feature)
 
-`impl_claude.py` is the trusted reference verifier for each feature. Run one directly:
+`impl_reference.py` is the trusted reference verifier for each feature. Run one directly:
 
 ```powershell
 # suci  -> expect FAIL (null-scheme SUCI, IMSI exposed)
-python -m pipeline.features.suci.impl_claude        "..\evidence\TC-SEC-001_<timestamp>"
+python -m pipeline.features.suci.impl_reference        "..\evidence\TC-SEC-001_<timestamp>"
 # registration -> PASS
-python -m pipeline.features.registration.impl_claude "..\evidence\TC-REG-001_<timestamp>"
+python -m pipeline.features.registration.impl_reference "..\evidence\TC-REG-001_<timestamp>"
 # pdu_session -> PASS
-python -m pipeline.features.pdu_session.impl_claude  "..\evidence\TC-PDU-001_<timestamp>"
+python -m pipeline.features.pdu_session.impl_reference  "..\evidence\TC-PDU-001_<timestamp>"
 # sib1 -> PASS   (no tshark needed; parses cu/du configs)
-python -m pipeline.features.sib1.impl_claude         "..\evidence\TC-SEC-003_<timestamp>_2PLMN"
+python -m pipeline.features.sib1.impl_reference         "..\evidence\TC-SEC-003_<timestamp>_2PLMN"
 # aka -> PASS    (recomputes RES* with Milenage; no tshark needed)
-python -m pipeline.features.aka.impl_claude          "..\evidence\TC-SEC-002_<timestamp>"
+python -m pipeline.features.aka.impl_reference          "..\evidence\TC-SEC-002_<timestamp>"
 ```
 Each prints the verdict + the full metrics JSON.
 
@@ -130,7 +130,7 @@ typically get wrong.
 
 1. `mkdir pipeline\features\<newfeature>` and add `__init__.py` + an `evidence\` folder.
 2. Write `spec.md` (the human contract: MUST / MUST NOT + metric keys + verdict logic).
-3. Write `impl_claude.py` (reference) + `test_<newfeature>.py`; add `impl_llama3.py` / `impl_mistral.py`
+3. Write `impl_reference.py` (reference) + `test_<newfeature>.py`; add `impl_llama3.py` / `impl_mistral.py`
    (start from stubs, or generate with `tools\gen_offline_impl.py` from the private companion repo).
 4. Register it in `compare\diff_report.py` (add to the `FEATURES` dict with its evidence glob + TS clause).
 5. Capture evidence, then run Parts 4-5.
@@ -142,7 +142,7 @@ typically get wrong.
 | Goal | Command |
 |---|---|
 | install deps | `pip install -r requirements.txt` |
-| one feature, reference only | `python -m pipeline.features.<f>.impl_claude "<evidence folder>"` |
+| one feature, reference only | `python -m pipeline.features.<f>.impl_reference "<evidence folder>"` |
 | **all features, 3-way compare, freeze golden** | `python compare\diff_report.py --all` |
 | run the test oracle | `pytest -q` |
 | generate offline drafts | `python tools\gen_offline_impl.py --all --model llama3` (private companion repo) |

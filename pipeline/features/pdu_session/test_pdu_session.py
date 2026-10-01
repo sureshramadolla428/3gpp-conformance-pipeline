@@ -7,7 +7,7 @@ Runs claude / llama3 / mistral against the latest TC-PDU-001 evidence folder
 import pytest
 from pathlib import Path
 
-from pipeline.features.pdu_session import impl_claude, impl_llama3, impl_mistral
+from pipeline.features.pdu_session import impl_reference, impl_llama3, impl_mistral
 
 
 def _latest_evidence() -> Path | None:
@@ -19,7 +19,7 @@ def _latest_evidence() -> Path | None:
 EVIDENCE = _latest_evidence()
 
 IMPLS = [
-    (impl_claude, "claude"),
+    (impl_reference, "claude"),
     (impl_llama3, "llama3"),
     (impl_mistral, "mistral"),
 ]

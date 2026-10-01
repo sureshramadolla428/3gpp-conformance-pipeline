@@ -101,7 +101,7 @@ def compare_feature(feature: str) -> bool:
     # Reference is Claude
     ref = results.get("claude")
     if ref is None:
-        print("  [ERROR] Could not load impl_claude.py - fix it first.")
+        print("  [ERROR] Could not load impl_reference.py - fix it first.")
         return False
 
     print(f"\n  {'METRIC':<30} {'CLAUDE':>12} {'LLAMA3':>12} {'MISTRAL':>12}  STATUS")

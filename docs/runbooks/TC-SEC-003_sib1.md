@@ -46,7 +46,7 @@ echo "Do index-0 PLMNs match? (report yes/no - do not assert PASS)"
 ## STEP 6 - handoff
 ```bash
 echo "Evidence: $OUT"
-echo "Verify:   python3 -c \"from pipeline.features.sib1 import impl_claude; print(impl_claude.run(cu='$OUT/cu.conf', du='$OUT/du.conf').verdict)\""
+echo "Verify:   python3 -c \"from pipeline.features.sib1 import impl_reference; print(impl_reference.run(cu='$OUT/cu.conf', du='$OUT/du.conf').verdict)\""
 ```
 Saves: cu.conf, du.conf, cu_plmn.txt, du_plmn.txt, f1.pcap, f1_plmn.txt. Change nothing outside "$OUT".
 Note: normalize PLMN format (MCC-MNC, 2- vs 3-digit MNC) before comparing.

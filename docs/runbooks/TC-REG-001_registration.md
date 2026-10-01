@@ -44,6 +44,6 @@ If any read 0, verify the message-type field/hex against TS 24.501 9.7.
 ## STEP 5 - handoff
 ```bash
 echo "Evidence: $OUT"
-echo "Verify:   python3 -c \"from pipeline.features.registration import impl_claude; print(impl_claude.run('$OUT/core.pcap').verdict)\""
+echo "Verify:   python3 -c \"from pipeline.features.registration import impl_reference; print(impl_reference.run('$OUT/core.pcap').verdict)\""
 ```
 Saves: core.pcap, gnb.log, ue.log, core_boot.log, meta.txt. Change nothing outside "$OUT".

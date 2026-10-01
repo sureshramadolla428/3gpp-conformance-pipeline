@@ -9,7 +9,7 @@ implements an independent reference verifier, runs it against lab evidence (pcap
 and produces a cited PASS/FAIL report.
 
 **Three-model workflow:**
-- `impl_claude.py`  - written by Claude Code. This is the REFERENCE implementation.
+- `impl_reference.py`  - written by Claude Code. This is the REFERENCE implementation.
 - `impl_llama3.py`  - written by Ollama llama3 (offline). Compared against Claude.
 - `impl_mistral.py` - written by Ollama mistral (offline). Compared against Claude.
 
@@ -41,7 +41,7 @@ pipeline/
   features/<name>/
     spec.md                 TS clause + MUST/MUST-NOT contract (YOU write)
     test_<name>.py          pytest - runs all 3 impls (YOU write, AI cannot change)
-    impl_claude.py          Claude Code reference implementation
+    impl_reference.py          Claude Code reference implementation
     impl_llama3.py          Ollama llama3 implementation
     impl_mistral.py         Ollama mistral implementation
     evidence/               pcaps, logs, generated reports
@@ -64,7 +64,7 @@ golden/                     Frozen Claude outputs (regression guard)
 
 ### Coding guidelines
 
-- `impl_claude.py` is the REFERENCE. Write it to be correct, cited, and readable.
+- `impl_reference.py` is the REFERENCE. Write it to be correct, cited, and readable.
 - Every impl must return a `VerificationResult` from `pipeline.shared.result`.
 - Never mock pcap input in tests - always use real lab evidence files.
 - Why-comments citing the TS clause on every non-obvious computation.

@@ -67,7 +67,7 @@ Paste these under a single project entry. Trim to 4-5 for a tight resume; keep a
   collision, and CU tunnel-update hypotheses with packet/log evidence - and distinguished a
   **degraded** "marking HO as complete" from a **true** "handover complete!" to prevent a false PASS.
 
-- Designed a **three-model LLM calibration loop**: Claude Code writes `impl_claude.py` as the
+- Designed a **three-model LLM calibration loop**: Claude Code writes `impl_reference.py` as the
   3GPP-cited reference implementation; Ollama (llama3 + mistral) generates offline counterparts;
   `diff_report.py` flags per-metric deviations as `[NEEDS CORRECTION]` and freezes `golden/*.json`
   only when all three agree - progressively calibrating offline RAG to spec-correct output without
@@ -139,7 +139,7 @@ with a three-model LLM calibration loop (Claude -> Ollama llama3/mistral).
 ## What this does
 
 ```
-TS clause -> spec.md -> impl_claude.py (REFERENCE) -> pytest -> evidence JSON + Markdown
+TS clause -> spec.md -> impl_reference.py (REFERENCE) -> pytest -> evidence JSON + Markdown
                               
               diff_report.py compares Claude vs llama3 vs mistral
                               
@@ -165,7 +165,7 @@ pytest pipeline/features/suci/ -k claude -v
 
 ## Three-model calibration loop
 
-Claude writes `impl_claude.py` first - spec-cited, tested, correct.
+Claude writes `impl_reference.py` first - spec-cited, tested, correct.
 Ollama (offline) writes `impl_llama3.py` and `impl_mistral.py`.
 `diff_report.py` shows exactly where they diverge:
 
@@ -244,7 +244,7 @@ Title #1 is the strongest hook - it leads with a real debugging story.
 - TS 33.501 6.1.3.2: UE derives RES\* using Milenage f2, then KDF over RAND + SNN
 - SNN = "5G:mnc{MNC}.mcc{MCC}.3gppnetwork.org" - PLMN-locked
 - Network computes XRES\* from the same inputs; they MUST match
-- Code snippet: the Milenage derivation in `impl_claude.py`
+- Code snippet: the Milenage derivation in `impl_reference.py`
 
 **Section 2: The actual root cause (400 words)**
 - CU SIB1 had PLMN 20893 first; DU SIB1 had 001/01 first
@@ -255,7 +255,7 @@ Title #1 is the strongest hook - it leads with a real debugging story.
 
 **Section 3: Turning a one-off fix into a regression guard (400 words)**
 - Problem: fixing it manually means it can silently regress
-- Solution: `pipeline/features/aka/impl_claude.py` - Milenage in Python, tshark for pcap
+- Solution: `pipeline/features/aka/impl_reference.py` - Milenage in Python, tshark for pcap
 - `test_aka.py` - pytest parametrized, runs on every commit
 - GitHub Actions CI badge: the fix is now permanent evidence
 
@@ -340,7 +340,7 @@ One line fix. But the real question: how do you make sure it never silently regr
 My answer: turn it into an automated regression guard.
 
 -> spec.md documents the TS 33.501 6.1.3.2 contract
--> impl_claude.py implements Milenage RES* derivation with the TS citation inline
+-> impl_reference.py implements Milenage RES* derivation with the TS citation inline
 -> test_aka.py runs pytest against the real pcap
 -> GitHub Actions CI runs it on every push
 

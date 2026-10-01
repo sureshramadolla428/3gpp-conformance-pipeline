@@ -1,5 +1,5 @@
 """
-impl_claude.py - aka verifier (implementation kept PRIVATE).
+impl_reference.py - suci verifier (implementation kept PRIVATE).
 
 The grading logic is proprietary and not published in this public repo. This stub
 preserves the public interface: run(...) -> VerificationResult. The design, the
@@ -11,7 +11,7 @@ from __future__ import annotations
 from pipeline.shared.result import VerificationResult
 
 MODEL = "claude"
-FEATURE = "aka"
+FEATURE = "suci"
 
 
 def run(*args, **kwargs) -> VerificationResult:

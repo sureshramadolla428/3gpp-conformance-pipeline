@@ -115,7 +115,7 @@ faking it. And voice/VoNR isn't covered. I'm explicit about all three."
 
 ### Engineering / scale
 **Q. How would you add a new test case?**
-A. "New feature folder, write spec.md (MUST/MUST NOT + metric keys + verdict logic), an impl_claude
+A. "New feature folder, write spec.md (MUST/MUST NOT + metric keys + verdict logic), an impl_reference
 reference + a pytest, register it in diff_report's FEATURES map, capture evidence, run. The design is
 one folder per feature so it scales linearly."
 

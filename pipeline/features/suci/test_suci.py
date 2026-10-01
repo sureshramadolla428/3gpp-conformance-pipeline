@@ -13,13 +13,13 @@ Change log:
 """
 import pytest
 from pathlib import Path
-from pipeline.features.suci import impl_claude, impl_llama3, impl_mistral
+from pipeline.features.suci import impl_reference, impl_llama3, impl_mistral
 
 # Real lab pcap - copy from 3GPP_Spec_Test/Input/AMF.pcapng
 PCAP = Path(__file__).parent / "evidence" / "AMF.pcapng"
 
 IMPLS = [
-    (impl_claude,  "claude"),
+    (impl_reference,  "claude"),
     (impl_llama3,  "llama3"),
     (impl_mistral, "mistral"),
 ]

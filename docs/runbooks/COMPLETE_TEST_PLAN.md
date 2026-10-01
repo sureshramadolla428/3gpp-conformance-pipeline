@@ -72,7 +72,7 @@ P="$OUT/core.pcap"
 echo "ngap:   $(tshark -r "$P" -Y ngap 2>/dev/null | wc -l)"
 echo "regreq: $(tshark -r "$P" -Y 'nas-5gs.mm.message_type==0x41' 2>/dev/null | wc -l)"
 tshark -r "$P" -Y 'nas-5gs.mm.message_type==0x41' -V 2>/dev/null | grep -iE "SUCI|IMSI|scheme|protection"
-python3 -c "from pipeline.features.suci import impl_claude; print(impl_claude.run('$P').verdict)"
+python3 -c "from pipeline.features.suci import impl_reference; print(impl_reference.run('$P').verdict)"
 ```
 Watch for a NULL-SCHEME SUCI (protection scheme 0) - "SUCI present" but IMSI still leaks.
 
@@ -110,7 +110,7 @@ for m in 0x41:RegReq 0x56:AuthReq 0x57:AuthResp 0x5d:SMC 0x5e:SMP 0x42:RegAccept
   hex=${m%%:*}; name=${m##*:}
   echo "$name($hex): $(tshark -r "$P" -Y "nas-5gs.mm.message_type==$hex" 2>/dev/null | wc -l)"
 done
-python3 -c "from pipeline.features.registration import impl_claude; print(impl_claude.run('$P').verdict)"
+python3 -c "from pipeline.features.registration import impl_reference; print(impl_reference.run('$P').verdict)"
 ```
 
 ---
@@ -146,7 +146,7 @@ core.pcap, amf.log, gnb.log, ue.log, aka_inputs.txt, aka_observed.txt
 
 ### Verify
 ```bash
-python3 -c "from pipeline.features.aka import impl_claude; print(impl_claude.run(log='$OUT/amf.log', inputs='$OUT/aka_inputs.txt').metrics)"
+python3 -c "from pipeline.features.aka import impl_reference; print(impl_reference.run(log='$OUT/amf.log', inputs='$OUT/aka_inputs.txt').metrics)"
 ```
 Confirm the Annex A.4 KDF and SNN format ("5G:mnc<MNC>.mcc<MCC>.3gppnetwork.org") in the reference.
 
@@ -186,7 +186,7 @@ echo "pdu_req:    $(tshark -r "$OUT/core.pcap" -Y 'nas-5gs.sm.message_type==0xc1
 echo "pdu_accept: $(tshark -r "$OUT/core.pcap" -Y 'nas-5gs.sm.message_type==0xc2' 2>/dev/null | wc -l)"
 echo "gtpu:       $(tshark -r "$OUT/n3.pcap"   -Y gtp 2>/dev/null | wc -l)"
 grep -iE "packet loss|rtt" "$OUT/run.log"
-python3 -c "from pipeline.features.pdu_session import impl_claude; print(impl_claude.run('$OUT/core.pcap','$OUT/n3.pcap','$OUT/run.log').verdict)"
+python3 -c "from pipeline.features.pdu_session import impl_reference; print(impl_reference.run('$OUT/core.pcap','$OUT/n3.pcap','$OUT/run.log').verdict)"
 ```
 Over NTN, long RTT is fine - the pass criterion is connectivity, not latency.
 
@@ -224,7 +224,7 @@ cu.conf, du.conf, cu_plmn.txt, du_plmn.txt, f1.pcap, f1_plmn.txt
 ```bash
 echo "CU first PLMN:"; head -1 "$OUT/cu_plmn.txt"
 echo "DU first PLMN:"; head -1 "$OUT/du_plmn.txt"
-python3 -c "from pipeline.features.sib1 import impl_claude; print(impl_claude.run(cu='$OUT/cu.conf', du='$OUT/du.conf').verdict)"
+python3 -c "from pipeline.features.sib1 import impl_reference; print(impl_reference.run(cu='$OUT/cu.conf', du='$OUT/du.conf').verdict)"
 ```
 Normalize PLMN format (MCC-MNC, 2- vs 3-digit MNC) before comparing.
 
@@ -246,5 +246,5 @@ Normalize PLMN format (MCC-MNC, 2- vs 3-digit MNC) before comparing.
 - SUCI: verify the null-scheme case (protection scheme != 0).
 - AKA: all crypto inputs must come from the same run.
 - SIB1: RFsim has no OTA SIB1 - config/F1 comparison is the evidence.
-- The pipeline verifiers exist only for `suci` today; the others need `impl_claude.py` written before
+- The pipeline verifiers exist only for `suci` today; the others need `impl_reference.py` written before
   their handoff commands will run.

@@ -7,7 +7,7 @@ asserts the initial registration completed. Claude = REFERENCE.
 import pytest
 from pathlib import Path
 
-from pipeline.features.registration import impl_claude, impl_llama3, impl_mistral
+from pipeline.features.registration import impl_reference, impl_llama3, impl_mistral
 
 
 def _latest_pcap() -> Path | None:
@@ -20,7 +20,7 @@ def _latest_pcap() -> Path | None:
 PCAP = _latest_pcap()
 
 IMPLS = [
-    (impl_claude, "claude"),
+    (impl_reference, "claude"),
     (impl_llama3, "llama3"),
     (impl_mistral, "mistral"),
 ]

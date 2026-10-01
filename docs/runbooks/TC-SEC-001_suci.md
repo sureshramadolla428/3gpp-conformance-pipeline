@@ -51,7 +51,7 @@ tshark -r "$P" -Y 'nas-5gs.mm.message_type==0x41' -V 2>/dev/null | grep -iE "SUC
 ## STEP 6 - handoff
 ```bash
 echo "Evidence: $OUT"
-echo "Verify:   python3 -c \"from pipeline.features.suci import impl_claude; print(impl_claude.run('$OUT/core.pcap').verdict)\""
+echo "Verify:   python3 -c \"from pipeline.features.suci import impl_reference; print(impl_reference.run('$OUT/core.pcap').verdict)\""
 ```
 Saves: core.pcap, gnb.log, ue.log, core_boot.log, meta.txt. Change nothing outside "$OUT".
 Note: watch for a NULL-SCHEME SUCI (protection scheme 0) - that is "SUCI present" but still leaks the IMSI.

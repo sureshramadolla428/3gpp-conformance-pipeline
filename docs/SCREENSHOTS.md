@@ -14,7 +14,7 @@ This short prompt keeps the long OneDrive path out of your screenshots.
 
 > Note on evidence paths: the `-m` verifier commands below use fixed timestamped folders.
 > If yours differ, tab-complete after typing `..\evidence\TC-...`, or use the auto-latest form:
-> `$e=(gci "..\evidence\TC-SEC-001_*"|sort Name|select -last 1).FullName; python -m pipeline.features.suci.impl_claude $e`
+> `$e=(gci "..\evidence\TC-SEC-001_*"|sort Name|select -last 1).FullName; python -m pipeline.features.suci.impl_reference $e`
 
 ---
 
@@ -51,13 +51,13 @@ cls; python -m pytest -q
 
 ### 5. Run the SUCI verifier directly -> FAIL  -  M
 ```powershell
-cls; python -m pipeline.features.suci.impl_claude "..\evidence\TC-SEC-001_20260805T211732Z"
+cls; python -m pipeline.features.suci.impl_reference "..\evidence\TC-SEC-001_20260805T211732Z"
 ```
 *Caption: "A single verifier reads the capture and returns FAIL with evidence and the TS clause."*
 
 ### 6. Run the AKA verifier directly -> PASS  -  M
 ```powershell
-cls; python -m pipeline.features.aka.impl_claude "..\evidence\TC-SEC-002_20260805T220324Z"
+cls; python -m pipeline.features.aka.impl_reference "..\evidence\TC-SEC-002_20260805T220324Z"
 ```
 *Caption: "The AKA verifier recomputes Milenage offline and confirms the match - one command, full evidence."*
 
@@ -69,13 +69,13 @@ These look best in an editor (syntax colors). `type <file>` in PowerShell also w
 
 ### 7. The reference AKA verifier (Milenage/KDF)  -  G M   most impressive code
 ```powershell
-code pipeline\features\aka\impl_claude.py
+code pipeline\features\aka\impl_reference.py
 ```
 *Caption: "The reference verifier - real Milenage + TS 33.501 Annex A.4/A.5 KDF, cited inline."*
 
 ### 8. The SUCI null-scheme detection  -  M
 ```powershell
-code pipeline\features\suci\impl_claude.py
+code pipeline\features\suci\impl_reference.py
 ```
 
 ### 9. The human-authored contract  -  G M

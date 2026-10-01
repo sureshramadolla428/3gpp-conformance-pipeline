@@ -55,7 +55,7 @@ independently - not just a message-count check.
 The lower half runs a single verifier on its own:
 
 ```powershell
-python -m pipeline.features.suci.impl_claude "..\evidence\TC-SEC-001_20260805T211732Z"
+python -m pipeline.features.suci.impl_reference "..\evidence\TC-SEC-001_20260805T211732Z"
 ```
 
 It prints `FAIL` and the full JSON: `null_scheme_frames=2`, and the note
@@ -71,8 +71,8 @@ TS 33.501 6.12 violated."* This is the same defect from panel 1, shown close up.
 Each verifier run directly against its evidence folder:
 
 ```powershell
-python -m pipeline.features.registration.impl_claude "..\evidence\TC-REG-001_20260805T213520Z"
-python -m pipeline.features.aka.impl_claude          "..\evidence\TC-SEC-002_20260805T220324Z"
+python -m pipeline.features.registration.impl_reference "..\evidence\TC-REG-001_20260805T213520Z"
+python -m pipeline.features.aka.impl_reference          "..\evidence\TC-SEC-002_20260805T220324Z"
 ```
 
 Registration -> PASS (full attach chain). AKA -> PASS, with the note confirming
@@ -86,8 +86,8 @@ success=True. TS 33.501 6.1.3.2 satisfied."*
 ![standalone: PDU session and SIB1](screenshots/05-standalone-pdu-sib1.png)
 
 ```powershell
-python -m pipeline.features.pdu_session.impl_claude "..\evidence\TC-PDU-001_20260805T224736Z"
-python -m pipeline.features.sib1.impl_claude         "..\evidence\TC-SEC-003_20260805T232636Z_2PLMN"
+python -m pipeline.features.pdu_session.impl_reference "..\evidence\TC-PDU-001_20260805T224736Z"
+python -m pipeline.features.sib1.impl_reference         "..\evidence\TC-SEC-003_20260805T232636Z_2PLMN"
 ```
 
 PDU Session -> PASS (GTP-U 42 frames, ping 0% loss). SIB1 -> PASS (CU/DU PLMN order

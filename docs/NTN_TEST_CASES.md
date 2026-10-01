@@ -194,9 +194,9 @@ tshark -r "$LATEST/core.pcap" \
 ```bash
 cd ~/5g-conformance-pipeline   # if cloned on VM
 python3 -c "
-from pipeline.features.suci import impl_claude
+from pipeline.features.suci import impl_reference
 from pathlib import Path
-r = impl_claude.run('$LATEST/core.pcap')
+r = impl_reference.run('$LATEST/core.pcap')
 print(r.verdict, r.notes)
 "
 ```
