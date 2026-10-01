@@ -1,8 +1,8 @@
-# spec.md — SUCI + NAS Security Mode Conformance
+# spec.md - SUCI + NAS Security Mode Conformance
 
-**TS reference:** TS 33.501 §6.1.3, §6.12 + Annex C (SUCI / ECIES protection schemes)  
+**TS reference:** TS 33.501 6.1.3, 6.12 + Annex C (SUCI / ECIES protection schemes)  
 **Feature:** suci  
-**Written by:** Basha (YOU — the contract; AI cannot change this)
+**Written by:** Basha (YOU - the contract; AI cannot change this)
 
 **Change log:**
 - 2026-08-05: null-scheme prohibition added to MUST NOT (see below), applied by AI
@@ -13,13 +13,13 @@
 
 ## What the spec says
 
-TS 33.501 §6.1.3 (5G-AKA and EAP-AKA' authentication):
+TS 33.501 6.1.3 (5G-AKA and EAP-AKA' authentication):
 
 > The UE SHALL send a Subscription Concealed Identifier (SUCI) in the
 > Registration Request message. The UE SHALL NOT send a cleartext SUPI
 > (IMSI) over the radio interface before NAS security is established.
 
-The NAS Security Mode Command / Complete exchange (TS 24.501 §5.4.2)
+The NAS Security Mode Command / Complete exchange (TS 24.501 5.4.2)
 establishes integrity + ciphering. After that, SUPI may be revealed
 to the network internally, but never on the air in cleartext.
 
@@ -47,7 +47,7 @@ to the network internally, but never on the air in cleartext.
   provide identifier privacy even though the identity type decodes as "SUCI". A capture that
   uses the null scheme MUST fail this conformance test until real concealment (a provisioned
   home-network public key / ECIES profile A or B) is used.
-  Ref: TS 33.501 §6.12 + Annex C (protection scheme 0 = null).
+  Ref: TS 33.501 6.12 + Annex C (protection scheme 0 = null).
   Metric asserted by the test: `null_scheme_frames == 0`.
 
 ---

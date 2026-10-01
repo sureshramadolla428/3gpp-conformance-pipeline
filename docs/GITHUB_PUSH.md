@@ -1,4 +1,4 @@
-# Push to GitHub — step by step (PowerShell)
+# Push to GitHub - step by step (PowerShell)
 
 Everything below is run from the repo root:
 ```powershell
@@ -28,17 +28,17 @@ git commit -m "5G 3GPP conformance pipeline: 3-model verifiers, RAG calibration,
 ```
 
 ## 2. Create the GitHub repo
-**Option A — website:** go to github.com → New repository → name `3gpp-conformance-pipeline` →
-choose **Private** (recommended, since it references your labs) or Public → **Create** (do NOT add a
+**Option A - website:** go to github.com -> New repository -> name `3gpp-conformance-pipeline` ->
+choose **Private** (recommended, since it references your labs) or Public -> **Create** (do NOT add a
 README/License there, you already have them).
 
-**Option B — GitHub CLI (if installed):**
+**Option B - GitHub CLI (if installed):**
 ```powershell
 winget install GitHub.cli
 gh auth login
 gh repo create 3gpp-conformance-pipeline --private --source=. --remote=origin --push
 ```
-(Option B does steps 3–4 for you.)
+(Option B does steps 3-4 for you.)
 
 ## 3. Connect the remote (skip if you used `gh`)
 ```powershell
@@ -50,7 +50,7 @@ git remote add origin https://github.com/<your-username>/3gpp-conformance-pipeli
 ```powershell
 git push -u origin main
 ```
-Enter your GitHub credentials / token if prompted. Done — refresh the repo page.
+Enter your GitHub credentials / token if prompted. Done - refresh the repo page.
 
 ## 5. Later changes
 ```powershell
@@ -83,7 +83,7 @@ automatically), the file tree, and `docs/` opened.
 ---
 
 ## Recommended GitHub repo settings
-- **Description:** "Offline 3GPP 5G/NTN conformance pipeline — spec → 3 graders → golden. Logs from OpenAirInterface / UERANSIM / Open5GS."
+- **Description:** "Offline 3GPP 5G/NTN conformance pipeline - spec -> 3 graders -> golden. Logs from OpenAirInterface / UERANSIM / Open5GS."
 - **Topics:** `5g` `3gpp` `ntn` `conformance-testing` `openairinterface` `ueransim` `open5gs` `rag` `ollama` `python`
 - **Visibility:** Private if it references internal lab configs; Public if you want it on your profile.
 - Pin it on your GitHub profile.

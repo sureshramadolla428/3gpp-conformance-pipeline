@@ -1,4 +1,4 @@
-# Offline calibration — generate llama3 / mistral verifiers, then diff against Claude
+# Offline calibration - generate llama3 / mistral verifiers, then diff against Claude
 
 This is the bottom half of the pipeline diagram: the offline models write their own
 verifiers, `diff_report.py` compares all three against the Claude REFERENCE, and you
@@ -6,7 +6,7 @@ correct the offline ones until they agree. When they agree, the result is frozen
 
 The core principle: **give the offline model the spec, NOT Claude's code.** If it saw
 `impl_claude.py` it would just copy it and there would be nothing to calibrate. It must
-reason from the human-authored `spec.md` on its own — the divergences are the whole point.
+reason from the human-authored `spec.md` on its own - the divergences are the whole point.
 
 ---
 
@@ -36,8 +36,8 @@ The exact prompt for each is already in the header of every `impl_llama3.py` / `
 
 ---
 
-## 2. Generate an offline impl (repeat per feature × per model)
-Feed the model the spec plus the header prompt. Example — suci with llama3:
+## 2. Generate an offline impl (repeat per feature x per model)
+Feed the model the spec plus the header prompt. Example - suci with llama3:
 ```powershell
 $feature = "suci"; $model = "llama3"
 $spec = Get-Content "pipeline\features\$feature\spec.md" -Raw
@@ -57,7 +57,7 @@ Then open `impl_$model.generated.py`, strip any markdown fences / prose, and pas
 `run()` into `impl_$model.py` (replace the NOT-IMPLEMENTED stub body). Keep the
 `MODEL / FEATURE / TS_CLAUSE` constants intact.
 
-> Expect the first output to be imperfect — wrong field names, missing metrics, wrong verdict
+> Expect the first output to be imperfect - wrong field names, missing metrics, wrong verdict
 > order. That is normal and is exactly what the diff step is for.
 
 ---
@@ -69,9 +69,9 @@ python compare\diff_report.py --feature suci
 python compare\diff_report.py --all
 ```
 Read the table. Each metric row shows CLAUDE vs LLAMA3 vs MISTRAL:
-- `✅ agree` — offline matches the reference.
-- `⚠ DISAGREE` + `[NEEDS CORRECTION]` — the offline impl is wrong on that metric.
-- `NOT YET WRITTEN` — still a stub (generate it first).
+- ` agree` - offline matches the reference.
+- `WARNING: DISAGREE` + `[NEEDS CORRECTION]` - the offline impl is wrong on that metric.
+- `NOT YET WRITTEN` - still a stub (generate it first).
 
 ---
 
@@ -81,19 +81,19 @@ For each `[NEEDS CORRECTION]`:
 2. Fix that metric (usually a filter name, a count, or the verdict ordering) so it matches
    the reference logic in `spec.md`.
 3. Re-run `python compare\diff_report.py --feature <feature>`.
-4. Repeat until every row reads `✅ agree`.
+4. Repeat until every row reads ` agree`.
 
-Keep a note of each fix — those notes ARE the calibration data (where offline 3GPP reasoning
+Keep a note of each fix - those notes ARE the calibration data (where offline 3GPP reasoning
 went wrong), and they make great material for the write-up.
 
 ---
 
 ## 5. Golden + CI
 When all three agree, `diff_report.py` freezes the Claude result as `golden/<feature>_claude.json`.
-That golden is then the offline oracle — no internet needed to re-verify.
+That golden is then the offline oracle - no internet needed to re-verify.
 
 Note on `suci`: the correct verdict for the current capture is **FAIL** (null-scheme SUCI). So
-"all three agree" here means all three return FAIL, and the golden is a FAIL. That is correct —
+"all three agree" here means all three return FAIL, and the golden is a FAIL. That is correct -
 the golden captures the true result for this evidence, not a forced PASS. To get a PASS golden,
 provision a real ECIES key in OAI, re-capture, and re-run.
 

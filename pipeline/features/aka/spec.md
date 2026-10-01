@@ -1,7 +1,7 @@
-# Feature: aka  —  5G-AKA RES* equals XRES* (Gate-2 regression guard)   [TC-SEC-002]
+# Feature: aka  -  5G-AKA RES* equals XRES* (Gate-2 regression guard)   [TC-SEC-002]
 
 feature:      aka
-ts_clause:    TS 33.501 §6.1.3.2 (5G AKA); TS 33.501 Annex A.4 (RES/XRES derivation); TS 23.003 §28.x (Serving Network Name)
+ts_clause:    TS 33.501 6.1.3.2 (5G AKA); TS 33.501 Annex A.4 (RES/XRES derivation); TS 23.003 28.x (Serving Network Name)
 interface:    AMF / gNB logs (+ optional N2 pcap) + offline Milenage recompute
 capture:      run.log / AMF log during registration; known K, OPc, RAND, XRES*, PLMN from config
 verdict_of:   PASS | FAIL | INCONCLUSIVE | ERROR
@@ -10,7 +10,7 @@ verdict_of:   PASS | FAIL | INCONCLUSIVE | ERROR
 Verify that the UE-derived RES* matches the network XRES* so authentication succeeds, and that the
 Serving Network Name is well formed.
 
-## Preconditions  (if unmet → INCONCLUSIVE, never FAIL)
+## Preconditions  (if unmet -> INCONCLUSIVE, never FAIL)
 - P1  Authentication procedure present     metric: auth_request == true
 - P2  Recompute inputs available            metric: inputs_available == true
 # Rule: without the auth exchange or crypto inputs, the result is INCONCLUSIVE.
@@ -21,7 +21,7 @@ Serving Network Name is well formed.
 - M3  Recomputed RES* matches network XRES*     check: Milenage f2 + KDF over RAND + SNN                   metric: res_star_match       expect: true
 - M4  Serving Network Name is well formed        check: SNN matches 5G format                              metric: snn_correct          expect: true
 
-## MUST NOT be present  (ANY hit → FAIL)
+## MUST NOT be present  (ANY hit -> FAIL)
 - N1  Authentication Reject / MAC failure        check: Authentication Reject seen in log or pcap          metric: auth_reject          expect: false
 
 ## Verdict logic  (evaluation order matters)

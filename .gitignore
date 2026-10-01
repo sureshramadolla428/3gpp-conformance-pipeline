@@ -10,7 +10,7 @@ venv/
 *.generated.py
 *.raw.txt
 
-# Raw captures — large / potentially sensitive; keep local, not in git
+# Raw captures - large / potentially sensitive; keep local, not in git
 *.pcap
 *.pcapng
 

@@ -1,7 +1,7 @@
-# Feature: registration  —  Initial 5GMM registration success   [TC-REG-001]
+# Feature: registration  -  Initial 5GMM registration success   [TC-REG-001]
 
 feature:      registration
-ts_clause:    TS 24.501 §5.5.1 (registration procedure); TS 24.501 §9.7 (NAS message types)
+ts_clause:    TS 24.501 5.5.1 (registration procedure); TS 24.501 9.7 (NAS message types)
 interface:    N2 / NGAP (NAS-5GS)
 capture:      pcap on N2 during initial UE registration
 verdict_of:   PASS | FAIL | INCONCLUSIVE | ERROR
@@ -9,10 +9,10 @@ verdict_of:   PASS | FAIL | INCONCLUSIVE | ERROR
 ## Purpose
 Verify that the UE completes the initial registration procedure end to end and reaches 5GMM-REGISTERED.
 
-## Preconditions  (if unmet → INCONCLUSIVE, never FAIL)
+## Preconditions  (if unmet -> INCONCLUSIVE, never FAIL)
 - P1  NGAP frames present     metric: ngap_frames > 0
 - P2  NAS-5GS frames present   metric: nas_frames > 0
-# Rule: no signalling captured → INCONCLUSIVE.
+# Rule: no signalling captured -> INCONCLUSIVE.
 
 ## MUST be present  (ALL required for PASS)
 - M1  Registration Request observed        check: 5GMM message type == 0x41                                        metric: reg_request        expect: true
@@ -20,7 +20,7 @@ Verify that the UE completes the initial registration procedure end to end and r
 - M3  Security Mode Command and Complete    check: SMC (0x5d) followed by SMP (0x5e)                                 metric: security_complete  expect: true
 - M4  Registration Accept observed          check: 5GMM message type == 0x42                                        metric: reg_accept         expect: true
 
-## MUST NOT be present  (ANY hit → FAIL)
+## MUST NOT be present  (ANY hit -> FAIL)
 - N1  Registration Reject observed          check: 5GMM message type == 0x44                                        metric: reg_reject         expect: false
 
 ## Verdict logic  (evaluation order matters)

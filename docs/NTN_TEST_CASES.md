@@ -1,5 +1,5 @@
 # NTN 3GPP Conformance Test Cases
-**New test cases — no existing files modified.**  
+**New test cases - no existing files modified.**  
 All evidence auto-saved to Windows Desktop via VMware shared folder.
 
 ---
@@ -8,37 +8,37 @@ All evidence auto-saved to Windows Desktop via VMware shared folder.
 
 ```
 Ubuntu VM runs test
-       ↓
+       
 capture-l2l3.sh captures UE + gNB + core logs + pcaps
-       ↓
+       
 Saved to: ~/leo-evidence/l2l3_<TEST-ID>_<TIMESTAMP>/
-       ↓
+       
 VMware shared folder syncs automatically
-       ↓
+       
 Windows Desktop: Setup Instructions\evidence\<TEST-ID>_<TIMESTAMP>\
-       ├── core.pcap          ← CN5G bridge (N2/N3/SBI)
-       ├── f1.pcap            ← F1 interface (CU↔DU)
-       ├── ue_dataplane.pcap  ← oaitun_ue1 (UE tunnel)
-       ├── gnb.log            ← gNB log
-       ├── ue.log             ← UE log
-       ├── run.log            ← test script output
-       └── meta.txt           ← test metadata + OAI version
+       --- core.pcap          <- CN5G bridge (N2/N3/SBI)
+       --- f1.pcap            <- F1 interface (CU<->DU)
+       --- ue_dataplane.pcap  <- oaitun_ue1 (UE tunnel)
+       --- gnb.log            <- gNB log
+       --- ue.log             <- UE log
+       --- run.log            <- test script output
+       --- meta.txt           <- test metadata + OAI version
 ```
 
 ---
 
-## Step 0 — One-time Windows folder setup (do this first)
+## Step 0 - One-time Windows folder setup (do this first)
 
 ### In VMware Settings (on Windows):
 
 1. Open **VMware Workstation / Fusion**
-2. Go to **VM → Settings → Shared Folders**
+2. Go to **VM -> Settings -> Shared Folders**
 3. Click **Add** and map:
    ```
    Windows path:  C:\Users\sures\OneDrive\Desktop\Setup Instructions\evidence
    VM name:       ntn-evidence
    ```
-4. Tick **Enable this share** → OK
+4. Tick **Enable this share** -> OK
 
 ### In Ubuntu VM terminal:
 
@@ -55,7 +55,7 @@ source ~/.bashrc
 
 # Verify it works
 echo "test" > /mnt/hgfs/ntn-evidence/verify.txt
-# Check on Windows Desktop → Setup Instructions\evidence\verify.txt should appear
+# Check on Windows Desktop -> Setup Instructions\evidence\verify.txt should appear
 ```
 
 ### Shortcut alias (paste into Ubuntu terminal once):
@@ -63,12 +63,12 @@ echo "test" > /mnt/hgfs/ntn-evidence/verify.txt
 ```bash
 cat >> ~/.bashrc << 'EOF'
 
-# NTN test runner — saves evidence directly to Windows Desktop
+# NTN test runner - saves evidence directly to Windows Desktop
 ntn-run() {
   local test_id="$1"
   local run_cmd="$2"
   local out_dir="/mnt/hgfs/ntn-evidence/${test_id}_$(date +%Y%m%d_%H%M%S)"
-  echo "[NTN] Running $test_id → $out_dir"
+  echo "[NTN] Running $test_id -> $out_dir"
   bash ~/oai-config/validation/capture-l2l3.sh \
     --test-id "$test_id" \
     --run-cmd "$run_cmd" \
@@ -86,14 +86,14 @@ After this, every test is just: `ntn-run TC-NTN-001 'bash ~/oai-config/...'`
 
 ---
 
-### TC-NTN-001 — LEO Attach + SIB19 Timing Conformance
+### TC-NTN-001 - LEO Attach + SIB19 Timing Conformance
 
-**3GPP reference:** TS 38.331 §6.3.1 (SIB19), TS 38.300 §9.2.6 (NTN TA)  
+**3GPP reference:** TS 38.331 6.3.1 (SIB19), TS 38.300 9.2.6 (NTN TA)  
 **What it proves:** gNB broadcasts correct SIB19 with ta-Common and Koffset values; UE attaches successfully using NTN timing advance  
-**Expected result:** PASS — PDU session up, ping succeeds, SIB19 present in capture  
+**Expected result:** PASS - PDU session up, ping succeeds, SIB19 present in capture  
 **Based on:** `TC-PATHC-LEO` from existing catalog
 
-**Ubuntu terminal — run this:**
+**Ubuntu terminal - run this:**
 ```bash
 ntn-run TC-NTN-001 'bash ~/oai-config/path-c/pathc-bringup-du0.sh'
 ```
@@ -101,11 +101,11 @@ ntn-run TC-NTN-001 'bash ~/oai-config/path-c/pathc-bringup-du0.sh'
 **What gets saved to Windows:**
 ```
 evidence\TC-NTN-001_<timestamp>\
-  ├── core.pcap        ← verify SIB19 in here with tshark
-  ├── f1.pcap          ← F1 setup messages
-  ├── ue_dataplane.pcap
-  ├── run.log          ← look for "PDU SESSION ESTABLISHED" + ping output
-  └── meta.txt
+  --- core.pcap        <- verify SIB19 in here with tshark
+  --- f1.pcap          <- F1 setup messages
+  --- ue_dataplane.pcap
+  --- run.log          <- look for "PDU SESSION ESTABLISHED" + ping output
+  --- meta.txt
 ```
 
 **Verify SIB19 in saved pcap (run on Windows with Wireshark or tshark):**
@@ -115,14 +115,14 @@ tshark -r core.pcap -Y "nr-rrc.sib19" -V | grep -i "ta-Common\|koffset\|epochTim
 
 ---
 
-### TC-NTN-002 — SIB19 ta-Common / Koffset Encoding Verification
+### TC-NTN-002 - SIB19 ta-Common / Koffset Encoding Verification
 
-**3GPP reference:** TS 38.331 §6.3.1 Table — SIB19 fields: ta-Common, ta-CommonDrift, Koffset  
+**3GPP reference:** TS 38.331 6.3.1 Table - SIB19 fields: ta-Common, ta-CommonDrift, Koffset  
 **What it proves:** The encoded SIB19 values match what the config file specifies (no silent encoding error)  
-**Expected result:** PASS — tshark-decoded ta-Common matches gnb-du0.conf value  
+**Expected result:** PASS - tshark-decoded ta-Common matches gnb-du0.conf value  
 **Based on:** Your existing SIB19 NTN encoding work in `docs/OAI_ISSUE_nr_update_sib19.md`
 
-**Ubuntu terminal — run this:**
+**Ubuntu terminal - run this:**
 ```bash
 ntn-run TC-NTN-002 'bash ~/oai-config/path-c/pathc-bringup-du0.sh'
 
@@ -139,18 +139,18 @@ tshark -r "$LATEST/core.pcap" \
 grep -i "ta_common\|koffset\|ntn" ~/oai-config/path-c/gnb-du0*.conf | head -10
 ```
 
-**Expected:** tshark-decoded value == config file value → conformance proven
+**Expected:** tshark-decoded value == config file value -> conformance proven
 
 ---
 
-### TC-NTN-003 — 5G-AKA with Correct PLMN Order (Gate-2 Regression Guard)
+### TC-NTN-003 - 5G-AKA with Correct PLMN Order (Gate-2 Regression Guard)
 
-**3GPP reference:** TS 33.501 §6.1.3.2, TS 23.003 §28.7  
-**What it proves:** After the plmn_list order fix, AKA succeeds (RES* == XRES*) — guards against regression  
-**Expected result:** PASS — Registration Accept on AMF-2 for IMSI 208930000000001  
+**3GPP reference:** TS 33.501 6.1.3.2, TS 23.003 28.7  
+**What it proves:** After the plmn_list order fix, AKA succeeds (RES* == XRES*) - guards against regression  
+**Expected result:** PASS - Registration Accept on AMF-2 for IMSI 208930000000001  
 **Based on:** Your Gate-2 fix in `oai-config/multi-plmn/second-amf/fix-gate2-sib1-order.sh`
 
-**Ubuntu terminal — run this:**
+**Ubuntu terminal - run this:**
 ```bash
 ntn-run TC-NTN-003 'bash ~/oai-config/multi-plmn/second-amf/fix-gate2-sib1-order.sh'
 ```
@@ -170,14 +170,14 @@ Registration Accept
 
 ---
 
-### TC-NTN-004 — SUCI Conformance During NTN Attach
+### TC-NTN-004 - SUCI Conformance During NTN Attach
 
-**3GPP reference:** TS 33.501 §6.1.3  
+**3GPP reference:** TS 33.501 6.1.3  
 **What it proves:** UE uses SUCI (not clear IMSI) during initial NTN registration  
-**Expected result:** PASS — SUCI IE present, SMC/SMP exchange confirmed in core.pcap  
+**Expected result:** PASS - SUCI IE present, SMC/SMP exchange confirmed in core.pcap  
 **Based on:** `TC-CAP-SUCI` from existing catalog
 
-**Ubuntu terminal — run this:**
+**Ubuntu terminal - run this:**
 ```bash
 ntn-run TC-NTN-004 'bash ~/oai-config/capture-suci-attach.sh'
 ```
@@ -203,14 +203,14 @@ print(r.verdict, r.notes)
 
 ---
 
-### TC-NTN-005 — F1 Handover in NTN (AWGN Channel)
+### TC-NTN-005 - F1 Handover in NTN (AWGN Channel)
 
-**3GPP reference:** TS 38.401 §8.9 (F1 interface handover)  
+**3GPP reference:** TS 38.401 8.9 (F1 interface handover)  
 **What it proves:** F1 HO signalling completes, UE stays registered, UP continues post-HO  
-**Expected result:** PASS — HO complete in signalling; ping survives HO  
+**Expected result:** PASS - HO complete in signalling; ping survives HO  
 **Based on:** `TC-PATHC-HO-AWGN` from existing catalog
 
-**Ubuntu terminal — run this:**
+**Ubuntu terminal - run this:**
 ```bash
 ntn-run TC-NTN-005 'PATHC_CHANNEL=AWGN bash ~/oai-config/path-c/pathc-du1-ho.sh'
 ```
@@ -226,14 +226,14 @@ grep -i "icmp\|bytes from\|ping" "$LATEST/run.log" | tail -10
 
 ---
 
-### TC-NTN-006 — Dynamic NTN Timing Hot-Reload
+### TC-NTN-006 - Dynamic NTN Timing Hot-Reload
 
-**3GPP reference:** TS 38.331 §5.2.2 (SIB scheduling), TR 38.821 §5.4 (NTN timing)  
+**3GPP reference:** TS 38.331 5.2.2 (SIB scheduling), TR 38.821 5.4 (NTN timing)  
 **What it proves:** NTN timing parameters (ta-Common, Koffset) update without full restart  
-**Expected result:** PASS — new SIB19 timing visible in pcap after reload, UE stays attached  
+**Expected result:** PASS - new SIB19 timing visible in pcap after reload, UE stays attached  
 **Based on:** `automation/dynamic_ntn_timing.py` + `automation/live_ntn_timing_reload.sh`
 
-**Ubuntu terminal — run this:**
+**Ubuntu terminal - run this:**
 ```bash
 ntn-run TC-NTN-006 'bash ~/automation/live_ntn_timing_reload.sh'
 ```
@@ -249,10 +249,10 @@ tshark -r "$LATEST/core.pcap" \
 
 ---
 
-## Quick Reference — Run All 6 Tests in Sequence
+## Quick Reference - Run All 6 Tests in Sequence
 
 ```bash
-# On Ubuntu VM — paste this block to run all NTN test cases
+# On Ubuntu VM - paste this block to run all NTN test cases
 
 echo "=== TC-NTN-001: LEO Attach ==="
 ntn-run TC-NTN-001 'bash ~/oai-config/path-c/pathc-bringup-du0.sh'
@@ -281,18 +281,18 @@ echo "=== All done. Evidence on Windows Desktop: Setup Instructions\evidence\ ==
 
 ```
 C:\Users\sures\OneDrive\Desktop\Setup Instructions\evidence\
-├── TC-NTN-001_20260723_143000\
-│   ├── core.pcap          ← open in Wireshark
-│   ├── f1.pcap
-│   ├── ue_dataplane.pcap
-│   ├── gnb.log
-│   ├── ue.log
-│   ├── run.log
-│   └── meta.txt
-├── TC-NTN-002_20260723_144500\
-│   └── ...
-└── TC-NTN-003_20260723_150000\
-    └── ...
+--- TC-NTN-001_20260723_143000\
+-   --- core.pcap          <- open in Wireshark
+-   --- f1.pcap
+-   --- ue_dataplane.pcap
+-   --- gnb.log
+-   --- ue.log
+-   --- run.log
+-   --- meta.txt
+--- TC-NTN-002_20260723_144500\
+-   --- ...
+--- TC-NTN-003_20260723_150000\
+    --- ...
 ```
 
 Each folder is named by test case + timestamp. Open any `.pcap` in Wireshark on Windows directly.
@@ -305,5 +305,5 @@ Each folder is named by test case + timestamp. Open any `.pcap` in Wireshark on 
 |---|---|
 | `/mnt/hgfs/ntn-evidence` not found | VMware Tools not installed: `sudo apt install open-vm-tools` |
 | `ntn-run: command not found` | Run `source ~/.bashrc` again |
-| `core.pcap` empty | CN5G not up when test ran — check `meta.txt` for `cn_if=` |
-| `ue_dataplane.pcap` missing | UE tunnel (oaitun_ue1) never came up — check `run.log` for errors |
+| `core.pcap` empty | CN5G not up when test ran - check `meta.txt` for `cn_if=` |
+| `ue_dataplane.pcap` missing | UE tunnel (oaitun_ue1) never came up - check `run.log` for errors |

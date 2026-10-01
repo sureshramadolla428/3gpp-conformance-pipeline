@@ -1,4 +1,4 @@
-﻿# 3GPP LTE, 5G and 6G Pipeline
+# 3GPP LTE, 5G and 6G Pipeline
 
 ### Offline 3GPP conformance grading with a three-verifier cross-check
 
@@ -7,7 +7,7 @@
 ![pytest](https://img.shields.io/badge/tested%20with-pytest-0A9EDC?logo=pytest&logoColor=white)
 ![Ollama](https://img.shields.io/badge/Ollama-llama3%20%C2%B7%20mistral-000000?logo=ollama&logoColor=white)
 ![3GPP](https://img.shields.io/badge/3GPP-TS%2033.501%20%C2%B7%2024.501%20%C2%B7%2038.331-005BAC)
-> â„¹ï¸ The RAG generator and lab/RAG internals live in a **private companion repo**. This public repo is the conformance pipeline: spec contracts, three-model verifiers, compare, golden, tests, and docs.
+> " The RAG generator and lab/RAG internals live in a **private companion repo**. This public repo is the conformance pipeline: spec contracts, three-model verifiers, compare, golden, tests, and docs.
 
 Offline **3GPP LTE / 5G / 6G conformance verification**: run three independent graders on the same lab evidence, compare them, and freeze a golden result when they agree.
 
@@ -19,7 +19,7 @@ The three implementations are intentional:
 | **Offline model A** | `impl_llama3.py` |
 | **Offline model B** | `impl_mistral.py` |
 
-Claude-vs-open-source comparison is part of the design. Do not strip `claude` names or files.
+assistant-vs-open-source comparison is part of the design. Do not strip `assistant` names or files.
 
 ---
 
@@ -27,25 +27,25 @@ Claude-vs-open-source comparison is part of the design. Do not strip `claude` na
 
 ```mermaid
 flowchart TD
-    A["OAI 5G / NTN lab<br/>gNB Â· nrUE Â· CN5G"] --> B["capture evidence<br/>pcap + logs + configs"]
-    B --> C["spec.md contract<br/>TS clause, must / must not"]
-    C --> D1["impl_claude (reference)"]
-    C --> D2["impl_llama3 (offline / RAG)"]
-    C --> D3["impl_mistral (offline / RAG)"]
-    D1 --> E["diff_report<br/>compare 3 verdicts"]
-    D2 --> E
-    D3 --> E
-    E -->|disagree| F["correct offline, re-run"]
-    F -.-> D2
-    F -.-> D3
-    E -->|all agree| G["golden + pytest / CI"]
-    classDef ref fill:#dafbe1,stroke:#2da44e;
-    classDef off fill:#fff8c5,stroke:#d4a72c;
-    class D1,G ref;
-    class D2,D3 off;
+ A["OAI 5G / NTN lab<br/>gNB - nrUE - CN5G"] --> B["capture evidence<br/>pcap + logs + configs"]
+ B --> C["spec.md contract<br/>TS clause, must / must not"]
+ C --> D1["impl_claude (reference)"]
+ C --> D2["impl_llama3 (offline / RAG)"]
+ C --> D3["impl_mistral (offline / RAG)"]
+ D1 --> E["diff_report<br/>compare 3 verdicts"]
+ D2 --> E
+ D3 --> E
+ E -->|disagree| F["correct offline, re-run"]
+ F -.-> D2
+ F -.-> D3
+ E -->|all agree| G["golden + pytest / CI"]
+ classDef ref fill:#dafbe1,stroke:#2da44e;
+ classDef off fill:#fff8c5,stroke:#d4a72c;
+ class D1,G ref;
+ class D2,D3 off;
 ```
 
-Diagrams: [pipeline flow](docs/pipeline_flowchart.svg) Â· [system architecture](docs/system_architecture.svg) Â· full setup story: [docs/SETUP_AND_ARCHITECTURE.md](docs/SETUP_AND_ARCHITECTURE.md)
+Diagrams: [pipeline flow](docs/pipeline_flowchart.svg) - [system architecture](docs/system_architecture.svg) - full setup story: [docs/SETUP_AND_ARCHITECTURE.md](docs/SETUP_AND_ARCHITECTURE.md)
 
 ## Results
 
@@ -80,11 +80,11 @@ Each feature lives under `pipeline/features/<name>/` with the three impls, tests
 
 | Feature | Test ID | Clause (see runbooks) |
 |---------|---------|------------------------|
-| SUCI concealment | TC-SEC-001 | TS 33.501 Â§6.12 / Â§6.1.3 |
-| Registration | TC-REG-001 | TS 24.501 Â§5.5.1 |
-| 5G-AKA (RES*) | TC-SEC-002 | TS 33.501 Â§6.1.3.2 |
-| PDU session | TC-PDU-001 | TS 24.501 Â§6.4.1 |
-| SIB1 / multi-PLMN order | TC-SEC-003 | TS 38.331 Â§6.3.1 |
+| SUCI concealment | TC-SEC-001 | TS 33.501 6.12 / 6.1.3 |
+| Registration | TC-REG-001 | TS 24.501 5.5.1 |
+| 5G-AKA (RES*) | TC-SEC-002 | TS 33.501 6.1.3.2 |
+| PDU session | TC-PDU-001 | TS 24.501 6.4.1 |
+| SIB1 / multi-PLMN order | TC-SEC-003 | TS 38.331 6.3.1 |
 
 Verifiers read captures/logs. They do not control the live RAN. Raw pcaps for a run usually sit next to the repo under `../evidence/<TEST-ID>_<timestamp>/` (see `docs/RUN_GUIDE.md`).
 
@@ -94,17 +94,17 @@ Verifiers read captures/logs. They do not control the live RAN. Raw pcaps for a 
 
 ```
 5g-conformance-pipeline/
-â”œâ”€â”€ compare/diff_report.py          # three-way compare + golden freeze
-â”œâ”€â”€ golden/                         # frozen Claude JSON (regression guard)
-â”œâ”€â”€ pipeline/
-â”‚   â”œâ”€â”€ shared/                     # VerificationResult, tshark helpers
-â”‚   â””â”€â”€ features/<name>/
-â”‚       â”œâ”€â”€ impl_claude.py
-â”‚       â”œâ”€â”€ impl_llama3.py
-â”‚       â”œâ”€â”€ impl_mistral.py
-â”‚       â”œâ”€â”€ test_<name>.py
-â”‚       â””â”€â”€ evidence/               # last compare artefacts (keep in git)
-â””â”€â”€ docs/                           # explainer, run guide, runbooks
+""" compare/diff_report.py # three-way compare + golden freeze
+""" golden/ # frozen assistant JSON (regression guard)
+""" pipeline/
+"' """ shared/ # VerificationResult, tshark helpers
+"' """" features/<name>/
+"' """ impl_claude.py
+"' """ impl_llama3.py
+"' """ impl_mistral.py
+"' """ test_<name>.py
+"' """" evidence/ # last compare artefacts (keep in git)
+"""" docs/ # explainer, run guide, runbooks
 ```
 
 Offline verifier generation (`gen_offline_impl.py` and the local 3GPP RAG) lives in a **private companion repo**, not in this public tree.
@@ -150,7 +150,7 @@ cd "C:\Users\sures\OneDrive\Desktop\Setup Instructions\5g-conformance-pipeline"
 pip install -r requirements.txt
 ```
 
-More detail: [`docs/RUN_GUIDE.md`](docs/RUN_GUIDE.md) Â· [`docs/EXPLAINER.md`](docs/EXPLAINER.md)
+More detail: [`docs/RUN_GUIDE.md`](docs/RUN_GUIDE.md) - [`docs/EXPLAINER.md`](docs/EXPLAINER.md)
 
 ---
 

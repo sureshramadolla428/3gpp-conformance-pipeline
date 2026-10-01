@@ -1,4 +1,4 @@
-# RUN GUIDE — from scratch, step by step
+# RUN GUIDE - from scratch, step by step
 
 Everything needed to go from an empty machine to a green `diff_report --all`, in order.
 Commands are Windows PowerShell. The project root is:
@@ -7,11 +7,11 @@ Commands are Windows PowerShell. The project root is:
 C:\Users\sures\OneDrive\Desktop\Setup Instructions\5g-conformance-pipeline
 ```
 
-Legend: **[once]** = one-time setup · **[each run]** = every time you verify a capture.
+Legend: **[once]** = one-time setup - **[each run]** = every time you verify a capture.
 
 ---
 
-## Part 0 — Prerequisites  [once]
+## Part 0 - Prerequisites  [once]
 
 | Tool | Why | Install (PowerShell) |
 |---|---|---|
@@ -29,7 +29,7 @@ ollama list        # only needed for the offline-model step
 
 ---
 
-## Part 1 — Get into the project + install deps  [once]
+## Part 1 - Get into the project + install deps  [once]
 
 ```powershell
 cd "C:\Users\sures\OneDrive\Desktop\Setup Instructions\5g-conformance-pipeline"
@@ -43,7 +43,7 @@ python -c "import pipeline, compare"
 
 ---
 
-## Part 2 — Capture evidence on the OAI lab  [each new test]
+## Part 2 - Capture evidence on the OAI lab  [each new test]
 
 The verifiers only analyse captures; they never touch the live network. On the Ubuntu VM,
 run the test and capture pcaps + logs (see `docs/runbooks/` for the exact per-test commands).
@@ -55,11 +55,11 @@ C:\Users\sures\OneDrive\Desktop\Setup Instructions\evidence\<TEST-ID>_<timestamp
 
 The verifiers auto-pick the **newest** folder matching each test ID (`TC-SEC-001_*`, `TC-REG-001_*`,
 `TC-SEC-002_*`, `TC-PDU-001_*`, `TC-SEC-003_*2PLMN*`). So once new evidence lands, the steps below
-use it automatically — no path editing.
+use it automatically - no path editing.
 
 ---
 
-## Part 3 — Run ONE reference verifier (optional, to eyeball a single feature)
+## Part 3 - Run ONE reference verifier (optional, to eyeball a single feature)
 
 `impl_claude.py` is the trusted reference verifier for each feature. Run one directly:
 
@@ -79,22 +79,22 @@ Each prints the verdict + the full metrics JSON.
 
 ---
 
-## Part 4 — Run the THREE-model comparison + freeze golden  [each run]  ★ main command
+## Part 4 - Run the THREE-model comparison + freeze golden  [each run]   main command
 
 This is the one you run most. `diff_report.py` runs all three verifiers (claude / llama3 / mistral)
-for every feature against the latest evidence, prints a side-by-side table, and — when all three
-agree — freezes the Claude result as `golden\<feature>_claude.json`.
+for every feature against the latest evidence, prints a side-by-side table, and - when all three
+agree - freezes the Claude result as `golden\<feature>_claude.json`.
 
 ```powershell
 python compare\diff_report.py --all           # all five features
 # or one feature:
 python compare\diff_report.py --feature suci
 ```
-Expected: **OVERALL: All features agree ✅** and five golden files written.
+Expected: **OVERALL: All features agree ** and five golden files written.
 
 ---
 
-## Part 5 — Run the human-owned test oracle  [each run]
+## Part 5 - Run the human-owned test oracle  [each run]
 
 ```powershell
 pytest -q
@@ -104,7 +104,7 @@ conforms (or, for suci, correctly fails on the known null-scheme defect).
 
 ---
 
-## Part 6 — (Offline AI) generate + calibrate the offline verifiers  [when adding/refreshing]
+## Part 6 - (Offline AI) generate + calibrate the offline verifiers  [when adding/refreshing]
 
 This is the RAG half. It uses your local Ollama + the 3GPP-spec/failure-log RAG to *draft* the
 offline verifiers, which you then calibrate against the reference. Requires Ollama running.
@@ -126,14 +126,14 @@ typically get wrong.
 
 ---
 
-## Part 7 — Add a NEW test case  [to extend]
+## Part 7 - Add a NEW test case  [to extend]
 
 1. `mkdir pipeline\features\<newfeature>` and add `__init__.py` + an `evidence\` folder.
 2. Write `spec.md` (the human contract: MUST / MUST NOT + metric keys + verdict logic).
 3. Write `impl_claude.py` (reference) + `test_<newfeature>.py`; add `impl_llama3.py` / `impl_mistral.py`
    (start from stubs, or generate with `tools\gen_offline_impl.py` from the private companion repo).
 4. Register it in `compare\diff_report.py` (add to the `FEATURES` dict with its evidence glob + TS clause).
-5. Capture evidence, then run Parts 4–5.
+5. Capture evidence, then run Parts 4-5.
 
 ---
 
@@ -155,5 +155,5 @@ typically get wrong.
 | `pytest` not found | `pip install pytest` then `python -m pytest -q` |
 | verifier says `tshark not found` | install Wireshark; ensure `tshark` is on PATH |
 | aka: `pip install pycryptodome` | `pip install pycryptodome` |
-| a filter reads 0 unexpectedly | Wireshark field-name version diff — the verifiers try hyphen + underscore; confirm the field with `tshark -G fields \| findstr <name>` |
+| a filter reads 0 unexpectedly | Wireshark field-name version diff - the verifiers try hyphen + underscore; confirm the field with `tshark -G fields \| findstr <name>` |
 | offline model 404 | `ollama list` for the exact tag, pass `--ollama-model "<tag>"` or `ollama pull <model>` |

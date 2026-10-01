@@ -9,9 +9,9 @@ implements an independent reference verifier, runs it against lab evidence (pcap
 and produces a cited PASS/FAIL report.
 
 **Three-model workflow:**
-- `impl_claude.py`  — written by Claude Code. This is the REFERENCE implementation.
-- `impl_llama3.py`  — written by Ollama llama3 (offline). Compared against Claude.
-- `impl_mistral.py` — written by Ollama mistral (offline). Compared against Claude.
+- `impl_claude.py`  - written by Claude Code. This is the REFERENCE implementation.
+- `impl_llama3.py`  - written by Ollama llama3 (offline). Compared against Claude.
+- `impl_mistral.py` - written by Ollama mistral (offline). Compared against Claude.
 
 `compare/diff_report.py` runs all three, flags where Ollama deviates from Claude,
 and generates correction notes so Ollama can be improved over time.
@@ -40,7 +40,7 @@ pipeline/
   shared/result.py          Common VerificationResult dataclass
   features/<name>/
     spec.md                 TS clause + MUST/MUST-NOT contract (YOU write)
-    test_<name>.py          pytest — runs all 3 impls (YOU write, AI cannot change)
+    test_<name>.py          pytest - runs all 3 impls (YOU write, AI cannot change)
     impl_claude.py          Claude Code reference implementation
     impl_llama3.py          Ollama llama3 implementation
     impl_mistral.py         Ollama mistral implementation
@@ -56,9 +56,9 @@ golden/                     Frozen Claude outputs (regression guard)
 
 | Spec | Clause | Feature |
 |------|--------|---------|
-| TS 33.501 | §6.1.3 | SUCI — UE identity concealment |
-| TS 33.501 | §6.1.3.2 + TS 23.003 §28.7 | 5G-AKA RES* derivation |
-| TS 38.331 | §6.3.1 | SIB1 plmn-IdentityList (MOCN) |
+| TS 33.501 | 6.1.3 | SUCI - UE identity concealment |
+| TS 33.501 | 6.1.3.2 + TS 23.003 28.7 | 5G-AKA RES* derivation |
+| TS 38.331 | 6.3.1 | SIB1 plmn-IdentityList (MOCN) |
 
 ## DO NOT MODIFY THIS SECTION WITHOUT ASKING ME
 
@@ -66,7 +66,7 @@ golden/                     Frozen Claude outputs (regression guard)
 
 - `impl_claude.py` is the REFERENCE. Write it to be correct, cited, and readable.
 - Every impl must return a `VerificationResult` from `pipeline.shared.result`.
-- Never mock pcap input in tests — always use real lab evidence files.
+- Never mock pcap input in tests - always use real lab evidence files.
 - Why-comments citing the TS clause on every non-obvious computation.
 - All verifiers: exit 0=PASS, 1=FAIL, 2=error, 3=inconclusive (consistent with existing scripts).
 
